@@ -10,6 +10,7 @@ import { KpiCard } from "@/components/ui/KpiCard";
 import { formatWeight, formatMoney, formatDate, formatPct } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { useT } from "@/lib/i18n";
+import { NewBatchModal } from "@/components/production/NewBatchModal";
 import type { CottonBatch, YarnBatch } from "@/types";
 
 type Stage = "cotton" | "yarn";
@@ -29,6 +30,7 @@ export default function ProductionPage() {
   });
 
   const router = useRouter();
+  const [showNewBatch, setShowNewBatch] = useState(false);
   const activeCotton = (cottonBatches ?? []).filter((b) => b.status === "in_progress").length;
   const activeYarn = (yarnBatches ?? []).filter((b) => b.status === "in_progress").length;
 
@@ -36,7 +38,10 @@ export default function ProductionPage() {
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t.nav.production}</h1>
-        <button className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
+        <button
+          onClick={() => setShowNewBatch(true)}
+          className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+        >
           <Plus className="w-4 h-4" /> {t.production.newBatch}
         </button>
       </div>
@@ -185,6 +190,9 @@ export default function ProductionPage() {
             },
           ]}
         />
+      )}
+      {showNewBatch && (
+        <NewBatchModal stage={stage} onClose={() => setShowNewBatch(false)} />
       )}
     </div>
   );

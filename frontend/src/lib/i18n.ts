@@ -54,6 +54,8 @@ export interface Translations {
     yarnOutputKg: string; endDate: string;
     cottonInput: string; cottonCost: string; fiberInput: string; fiberCost: string;
     netCost: string; totalExpenses: string; byproductCredits: string;
+    newCottonBatchTitle: string; newYarnBatchTitle: string;
+    startDate: string; selectYarnProduct: string; batchCreated: string; creating: string;
   };
   costing: {
     title: string; avgYarnCostMonth: string; avgFiberCostMonth: string;
@@ -171,6 +173,8 @@ const en: Translations = {
     cottonInput: "Cotton Input (kg)", cottonCost: "Cotton Cost",
     fiberInput: "Fiber Input (kg)", fiberCost: "Fiber Cost",
     netCost: "Net Cost", totalExpenses: "Total Expenses", byproductCredits: "Byproduct Credits",
+    newCottonBatchTitle: "New Cotton Batch", newYarnBatchTitle: "New Yarn Batch",
+    startDate: "Start Date", selectYarnProduct: "Yarn Product", batchCreated: "Batch created", creating: "Creating…",
   },
   costing: {
     title: "Costing Engine", avgYarnCostMonth: "Avg Yarn Cost (Month)",
@@ -305,6 +309,8 @@ const ru: Translations = {
     cottonInput: "Вход хлопка (кг)", cottonCost: "Стоимость хлопка",
     fiberInput: "Вход волокна (кг)", fiberCost: "Стоимость волокна",
     netCost: "Чистые затраты", totalExpenses: "Итого расходы", byproductCredits: "Кредиты за побочные продукты",
+    newCottonBatchTitle: "Новая партия хлопка", newYarnBatchTitle: "Новая партия пряжи",
+    startDate: "Дата начала", selectYarnProduct: "Продукт (пряжа)", batchCreated: "Партия создана", creating: "Создание…",
   },
   costing: {
     title: "Калькуляция затрат", avgYarnCostMonth: "Ср. себ-сть пряжи (месяц)",
@@ -439,6 +445,8 @@ const uz: Translations = {
     cottonInput: "Paxta kirishi (kg)", cottonCost: "Paxta qiymati",
     fiberInput: "Tola kirishi (kg)", fiberCost: "Tola qiymati",
     netCost: "Sof xarajat", totalExpenses: "Jami xarajatlar", byproductCredits: "Yon mahsulot kreditlari",
+    newCottonBatchTitle: "Yangi paxta partiyasi", newYarnBatchTitle: "Yangi ip partiyasi",
+    startDate: "Boshlanish sanasi", selectYarnProduct: "Ip mahsuloti", batchCreated: "Partiya yaratildi", creating: "Yaratilmoqda…",
   },
   costing: {
     title: "Tannarx kalkulyatsiyasi", avgYarnCostMonth: "O'rt. ip tannarxi (oy)",
