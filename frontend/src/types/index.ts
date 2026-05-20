@@ -53,6 +53,7 @@ export interface Warehouse {
   capacity_kg: string | null;
   is_active: boolean;
   total_stock_value: number;
+  total_quantity_kg: number;
 }
 
 export interface Product {

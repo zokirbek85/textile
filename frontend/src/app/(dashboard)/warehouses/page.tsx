@@ -1,20 +1,24 @@
 "use client";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Warehouse, Plus, Search } from "lucide-react";
+import { Warehouse, Plus, Search, Package } from "lucide-react";
 import { warehouseApi } from "@/lib/api";
 import { DataTable } from "@/components/ui/DataTable";
 import { ReceiveStockModal } from "@/components/warehouse/ReceiveStockModal";
+import { AddWarehouseModal } from "@/components/warehouse/AddWarehouseModal";
+import { AddProductModal } from "@/components/warehouse/AddProductModal";
 import { formatMoney, formatWeight, WAREHOUSE_TYPE_COLORS } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { useT } from "@/lib/i18n";
-import type { StockLedgerEntry } from "@/types";
+import type { StockLedgerEntry, Product } from "@/types";
 
 export default function WarehousesPage() {
   const t = useT();
   const [activeTab, setActiveTab] = useState<"balances" | "movements" | "products">("balances");
   const [search, setSearch] = useState("");
   const [showReceive, setShowReceive] = useState(false);
+  const [showAddWarehouse, setShowAddWarehouse] = useState(false);
+  const [showAddProduct, setShowAddProduct] = useState(false);
 
   const { data: warehouses, isLoading: whLoading } = useQuery({
     queryKey: ["warehouses"],
@@ -34,6 +38,13 @@ export default function WarehousesPage() {
     enabled: activeTab === "movements",
   });
 
+  const { data: products, isLoading: productsLoading } = useQuery({
+    queryKey: ["products-all"],
+    queryFn: () =>
+      warehouseApi.listProducts({ page_size: 100, search }).then((r) => r.data.results),
+    enabled: activeTab === "products",
+  });
+
   const tabs = [
     { id: "balances" as const, label: t.warehouses.stockBalances },
     { id: "movements" as const, label: t.warehouses.movements },
@@ -44,12 +55,26 @@ export default function WarehousesPage() {
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t.nav.warehouses}</h1>
-        <button
-          onClick={() => setShowReceive(true)}
-          className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="w-4 h-4" /> {t.warehouses.receiveStock}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowAddWarehouse(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium border border-border rounded-lg hover:bg-muted transition-colors"
+          >
+            <Plus className="w-4 h-4" /> {t.warehouses.addWarehouse}
+          </button>
+          <button
+            onClick={() => setShowAddProduct(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium border border-border rounded-lg hover:bg-muted transition-colors"
+          >
+            <Plus className="w-4 h-4" /> {t.warehouses.addProduct}
+          </button>
+          <button
+            onClick={() => setShowReceive(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            <Plus className="w-4 h-4" /> {t.warehouses.receiveStock}
+          </button>
+        </div>
       </div>
 
       {/* Warehouse cards */}
@@ -62,7 +87,7 @@ export default function WarehousesPage() {
               <div
                 key={wh.id}
                 className={cn(
-                  "rounded-xl border bg-card p-4 hover:shadow-sm transition-all cursor-pointer",
+                  "rounded-xl border bg-card p-4 hover:shadow-sm transition-all",
                   "border-l-4",
                   {
                     "border-l-amber-400": wh.warehouse_type === "cotton",
@@ -73,12 +98,15 @@ export default function WarehousesPage() {
                   }
                 )}
               >
-                <div className="flex items-center gap-1.5 mb-2">
-                  <Warehouse className="w-3.5 h-3.5 text-muted-foreground" />
+                <div className="flex items-center gap-1.5 mb-3">
+                  <Warehouse className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
                   <span className="text-xs font-medium truncate">{wh.name}</span>
                 </div>
                 <p className="text-sm font-bold tabular">{formatMoney(wh.total_stock_value)}</p>
-                <span className={cn("text-xs px-1.5 py-0.5 rounded font-medium mt-1 inline-block",
+                <p className="text-xs text-muted-foreground tabular mt-0.5">
+                  {formatWeight(wh.total_quantity_kg)}
+                </p>
+                <span className={cn("text-xs px-1.5 py-0.5 rounded font-medium mt-2 inline-block",
                   WAREHOUSE_TYPE_COLORS[wh.warehouse_type] ?? "bg-muted")}>
                   {wh.warehouse_type_display}
                 </span>
@@ -163,8 +191,6 @@ export default function WarehousesPage() {
         />
       )}
 
-      {showReceive && <ReceiveStockModal onClose={() => setShowReceive(false)} />}
-
       {/* Movements */}
       {activeTab === "movements" && (
         <DataTable
@@ -200,6 +226,53 @@ export default function WarehousesPage() {
           ]}
         />
       )}
+
+      {/* Products */}
+      {activeTab === "products" && (
+        <DataTable<Product>
+          loading={productsLoading}
+          data={products ?? []}
+          rowKey={(r) => r.id}
+          columns={[
+            { key: "name", header: t.warehouses.productName },
+            { key: "code", header: t.warehouses.colCode, className: "font-mono text-xs" },
+            {
+              key: "product_type",
+              header: t.warehouses.colType,
+              render: (r) => (
+                <span className={cn("text-xs px-2 py-0.5 rounded font-medium",
+                  WAREHOUSE_TYPE_COLORS[r.product_type] ?? "bg-muted text-muted-foreground")}>
+                  {r.product_type}
+                </span>
+              ),
+            },
+            { key: "unit", header: t.warehouses.colUnit },
+            {
+              key: "yarn_count",
+              header: t.warehouses.yarnCount,
+              render: (r) => r.yarn_count ? (
+                <span className="text-xs bg-violet-100 text-violet-700 dark:bg-violet-900/20 dark:text-violet-300 px-2 py-0.5 rounded font-medium">
+                  {r.yarn_count}
+                </span>
+              ) : "—",
+            },
+            {
+              key: "is_active",
+              header: t.users.colStatus,
+              render: (r) => (
+                <span className={cn("text-xs px-2 py-0.5 rounded font-medium",
+                  r.is_active ? "bg-green-100 text-green-700 dark:bg-green-900/20" : "bg-muted text-muted-foreground")}>
+                  {r.is_active ? t.common.statusActive : t.common.statusInactive}
+                </span>
+              ),
+            },
+          ]}
+        />
+      )}
+
+      {showReceive && <ReceiveStockModal onClose={() => setShowReceive(false)} />}
+      {showAddWarehouse && <AddWarehouseModal onClose={() => setShowAddWarehouse(false)} />}
+      {showAddProduct && <AddProductModal onClose={() => setShowAddProduct(false)} />}
     </div>
   );
 }

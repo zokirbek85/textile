@@ -27,19 +27,25 @@ class ProductSerializer(serializers.ModelSerializer):
 class WarehouseSerializer(serializers.ModelSerializer):
     warehouse_type_display = serializers.CharField(source="get_warehouse_type_display", read_only=True)
     total_stock_value = serializers.SerializerMethodField()
+    total_quantity_kg = serializers.SerializerMethodField()
 
     class Meta:
         model = Warehouse
         fields = [
             "id", "name", "code", "warehouse_type", "warehouse_type_display",
             "location", "capacity_kg", "is_active", "notes",
-            "total_stock_value", "created_at",
+            "total_stock_value", "total_quantity_kg", "created_at",
         ]
         read_only_fields = ["id", "created_at"]
 
     def get_total_stock_value(self, obj):
         from django.db.models import Sum
         result = StockLedger.objects.filter(warehouse=obj).aggregate(total=Sum("total_value"))
+        return result["total"] or 0
+
+    def get_total_quantity_kg(self, obj):
+        from django.db.models import Sum
+        result = StockLedger.objects.filter(warehouse=obj).aggregate(total=Sum("quantity_kg"))
         return result["total"] or 0
 
 

@@ -27,6 +27,13 @@ export interface Translations {
     colWarehouse: string; colProduct: string; colType: string; colQtyKg: string;
     colAvgCost: string; colTotalValue: string; colLastMovement: string; colTotalCost: string;
     receiveStockTitle: string; warehouse: string; costPerKg: string; notes: string; receiving: string; stockReceived: string;
+    addWarehouse: string; addWarehouseTitle: string; warehouseName: string; warehouseCode: string;
+    warehouseType: string; location: string; capacityKg: string; warehouseAdded: string; adding: string;
+    addProduct: string; addProductTitle: string; productName: string; productCode: string;
+    productType: string; yarnCount: string; yarnType: string; productAdded: string;
+    colCode: string; colUnit: string;
+    wtCotton: string; wtFiber: string; wtWip: string; wtYarn: string; wtWaste: string; wtOther: string;
+    ptRawCotton: string; ptFiber: string; ptSeed: string; ptLint: string; ptYarn: string; ptWaste: string; ptOther: string;
   };
   production: {
     newBatch: string; activeCottonBatches: string; activeYarnBatches: string;
@@ -130,6 +137,17 @@ const en: Translations = {
     colLastMovement: "Last Movement", colTotalCost: "Total Cost",
     receiveStockTitle: "Receive Stock into Warehouse", warehouse: "Warehouse",
     costPerKg: "Cost per kg", notes: "Notes (optional)", receiving: "Receiving…", stockReceived: "Stock received",
+    addWarehouse: "Add Warehouse", addWarehouseTitle: "New Warehouse",
+    warehouseName: "Name", warehouseCode: "Code (e.g. WH-01)", warehouseType: "Type",
+    location: "Location (optional)", capacityKg: "Capacity (kg, optional)",
+    warehouseAdded: "Warehouse created", adding: "Adding…",
+    addProduct: "Add Product", addProductTitle: "New Product",
+    productName: "Product Name", productCode: "Code (e.g. YRN-Ne30)", productType: "Product Type",
+    yarnCount: "Yarn Count (e.g. Ne30/1)", yarnType: "Yarn Type (e.g. Combed)",
+    productAdded: "Product created",
+    colCode: "Code", colUnit: "Unit",
+    wtCotton: "Cotton", wtFiber: "Fiber", wtWip: "WIP", wtYarn: "Yarn", wtWaste: "Waste", wtOther: "Other",
+    ptRawCotton: "Raw Cotton", ptFiber: "Fiber", ptSeed: "Seed", ptLint: "Lint", ptYarn: "Yarn", ptWaste: "Waste", ptOther: "Other",
   },
   production: {
     newBatch: "New Batch", activeCottonBatches: "Active Cotton Batches",
@@ -253,6 +271,17 @@ const ru: Translations = {
     colLastMovement: "Последнее движение", colTotalCost: "Итого",
     receiveStockTitle: "Принять товар на склад", warehouse: "Склад",
     costPerKg: "Цена за кг", notes: "Примечание (необязательно)", receiving: "Принятие…", stockReceived: "Товар принят",
+    addWarehouse: "Добавить склад", addWarehouseTitle: "Новый склад",
+    warehouseName: "Название", warehouseCode: "Код (напр. WH-01)", warehouseType: "Тип склада",
+    location: "Местоположение (необязательно)", capacityKg: "Вместимость (кг, необязательно)",
+    warehouseAdded: "Склад создан", adding: "Создание…",
+    addProduct: "Добавить продукт", addProductTitle: "Новый продукт",
+    productName: "Название продукта", productCode: "Код (напр. YRN-Ne30)", productType: "Тип продукта",
+    yarnCount: "Номер пряжи (напр. Ne30/1)", yarnType: "Вид пряжи (напр. Гребённая)",
+    productAdded: "Продукт создан",
+    colCode: "Код", colUnit: "Ед. изм.",
+    wtCotton: "Хлопок", wtFiber: "Волокно", wtWip: "НЗП", wtYarn: "Пряжа", wtWaste: "Отходы", wtOther: "Прочее",
+    ptRawCotton: "Сырой хлопок", ptFiber: "Волокно", ptSeed: "Семена", ptLint: "Линт", ptYarn: "Пряжа", ptWaste: "Отходы", ptOther: "Прочее",
   },
   production: {
     newBatch: "Новая партия", activeCottonBatches: "Активные партии хлопка",
@@ -376,6 +405,17 @@ const uz: Translations = {
     colLastMovement: "Oxirgi harakat", colTotalCost: "Jami",
     receiveStockTitle: "Omborga qabul qilish", warehouse: "Ombor",
     costPerKg: "Kg narxi", notes: "Izoh (ixtiyoriy)", receiving: "Qabul qilinmoqda…", stockReceived: "Mahsulot qabul qilindi",
+    addWarehouse: "Ombor qo'shish", addWarehouseTitle: "Yangi ombor",
+    warehouseName: "Nomi", warehouseCode: "Kod (mas. WH-01)", warehouseType: "Ombor turi",
+    location: "Manzil (ixtiyoriy)", capacityKg: "Sig'im (kg, ixtiyoriy)",
+    warehouseAdded: "Ombor yaratildi", adding: "Yaratilmoqda…",
+    addProduct: "Mahsulot qo'shish", addProductTitle: "Yangi mahsulot",
+    productName: "Mahsulot nomi", productCode: "Kod (mas. YRN-Ne30)", productType: "Mahsulot turi",
+    yarnCount: "Ip raqami (mas. Ne30/1)", yarnType: "Ip turi (mas. Taralgan)",
+    productAdded: "Mahsulot yaratildi",
+    colCode: "Kod", colUnit: "O'lchov",
+    wtCotton: "Paxta", wtFiber: "Tola", wtWip: "NTM", wtYarn: "Ip", wtWaste: "Chiqindi", wtOther: "Boshqa",
+    ptRawCotton: "Xom paxta", ptFiber: "Tola", ptSeed: "Urug'", ptLint: "Lint", ptYarn: "Ip", ptWaste: "Chiqindi", ptOther: "Boshqa",
   },
   production: {
     newBatch: "Yangi partiya", activeCottonBatches: "Faol paxta partiyalari",

@@ -37,6 +37,8 @@ export const warehouseApi = {
     api.get<PaginatedResponse<Warehouse>>("/warehouse/warehouses/", { params }),
   getWarehouse: (id: string) =>
     api.get<Warehouse>(`/warehouse/warehouses/${id}/`),
+  createWarehouse: (data: unknown) =>
+    api.post<Warehouse>("/warehouse/warehouses/", data),
   getWarehouseBalances: (id: string) =>
     api.get<unknown[]>(`/warehouse/warehouses/${id}/balances/`),
   receiveStock: (data: unknown) =>
@@ -48,6 +50,8 @@ export const warehouseApi = {
     api.get<PaginatedResponse<Product>>("/warehouse/products/", { params }),
   getProduct: (id: string) =>
     api.get<Product>(`/warehouse/products/${id}/`),
+  createProduct: (data: unknown) =>
+    api.post<Product>("/warehouse/products/", data),
 
   listLedger: (params?: Record<string, unknown>) =>
     api.get<PaginatedResponse<StockLedgerEntry>>("/warehouse/ledger/", { params }),
