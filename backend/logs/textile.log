@@ -1,0 +1,13 @@
+[2026-05-20 09:00:19,874] INFO apps.notifications.consumers WS connect: user=6122f0e2-c1b2-498b-b0d5-2de9f73393f7
+[2026-05-20 09:00:19,875] INFO apps.notifications.consumers WS connect: user=6122f0e2-c1b2-498b-b0d5-2de9f73393f7
+[2026-05-20 09:00:19,875] INFO apps.notifications.consumers WS disconnect: user=6122f0e2-c1b2-498b-b0d5-2de9f73393f7 code=1006
+[2026-05-20 09:00:22,839] INFO apps.notifications.consumers WS connect: user=6122f0e2-c1b2-498b-b0d5-2de9f73393f7
+[2026-05-20 09:00:29,600] INFO apps.notifications.consumers WS disconnect: user=6122f0e2-c1b2-498b-b0d5-2de9f73393f7 code=None
+[2026-05-20 09:00:29,603] INFO apps.notifications.consumers WS connect: user=6122f0e2-c1b2-498b-b0d5-2de9f73393f7
+[2026-05-20 09:00:32,616] INFO apps.notifications.consumers WS connect: user=6122f0e2-c1b2-498b-b0d5-2de9f73393f7
+[2026-05-20 09:01:12,433] INFO apps.notifications.consumers WS disconnect: user=6122f0e2-c1b2-498b-b0d5-2de9f73393f7 code=None
+[2026-05-20 09:01:12,435] INFO apps.notifications.consumers WS connect: user=6122f0e2-c1b2-498b-b0d5-2de9f73393f7
+[2026-05-20 09:01:12,441] INFO apps.notifications.consumers WS disconnect: user=6122f0e2-c1b2-498b-b0d5-2de9f73393f7 code=1001
+[2026-05-20 09:01:12,450] INFO apps.notifications.consumers WS connect: user=6122f0e2-c1b2-498b-b0d5-2de9f73393f7
+[2026-05-20 09:01:16,304] INFO apps.notifications.consumers WS connect: user=6122f0e2-c1b2-498b-b0d5-2de9f73393f7
+[2026-05-20 09:01:16,332] INFO apps.notifications.consumers WS connect: user=6122f0e2-c1b2-498b-b0d5-2de9f73393f7

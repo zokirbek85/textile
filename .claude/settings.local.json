@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /Users/zokir/.claude/projects/-Users-zokir-Documents-Projects-textile/memory && ls /Users/zokir/.claude/projects/-Users-zokir-Documents-Projects-textile/memory/ 2>/dev/null || echo \"dir ready\")",
+      "Bash(docker --version)",
+      "Bash(docker compose *)",
+      "Bash(psql --version)",
+      "Bash(pg_isready)",
+      "Read(//opt/homebrew/opt/**)",
+      "Bash(python3 -c \"import json,sys; data=json.load\\(sys.stdin\\); [print\\(item['text']\\) for item in data if item['type']=='text']\")",
+      "Bash(npx tsc *)",
+      "Bash(node_modules/.bin/tsc --noEmit)",
+      "Bash(./node_modules/.bin/tsc --noEmit)",
+      "Bash(docker exec *)",
+      "Bash(grep -r \"TODO\\\\|FIXME\\\\|placeholder\\\\|Coming Soon\\\\|not implemented\\\\|pass$\\\\|raise NotImplementedError\" /Users/zokir/Documents/Projects/textile/backend/apps --include=\"*.py\")",
+      "Bash(xargs ls -la)",
+      "Bash(mkdir -p \"/Users/zokir/Documents/Projects/textile/frontend/src/app/\\(dashboard\\)/production/cotton/[id]\")",
+      "Bash(mkdir -p \"/Users/zokir/Documents/Projects/textile/frontend/src/app/\\(dashboard\\)/production/yarn/[id]\")"
+    ],
+    "additionalDirectories": [
+      "/Users/zokir/.claude/projects/-Users-zokir-Documents-Projects-textile/memory"
+    ]
+  }
+}
