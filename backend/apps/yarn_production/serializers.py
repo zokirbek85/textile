@@ -35,11 +35,17 @@ class YarnBatchSerializer(serializers.ModelSerializer):
             "calculated_yarn_cost_per_kg",
             "fiber_source_warehouse", "yarn_target_warehouse",
             "notes", "expenses", "created_at", "updated_at",
+            # Tolling fields
+            "tolling_contract",
+            "processor_yarn_kg", "customer_yarn_kg", "loss_yarn_kg",
+            "service_fee_per_kg_fiber", "total_service_fee", "total_service_fee_with_vat",
         ]
         read_only_fields = [
             "id", "batch_code", "total_spinning_expenses",
             "calculated_yarn_cost_per_kg", "waste_pct",
             "net_cost", "created_at", "updated_at",
+            "processor_yarn_kg", "customer_yarn_kg", "loss_yarn_kg",
+            "service_fee_per_kg_fiber", "total_service_fee", "total_service_fee_with_vat",
         ]
 
 

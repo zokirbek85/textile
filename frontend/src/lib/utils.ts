@@ -74,4 +74,6 @@ export const WAREHOUSE_TYPE_COLORS: Record<string, string> = {
   wip: "bg-sky-100 text-sky-700",
   yarn: "bg-violet-100 text-violet-700",
   waste: "bg-slate-100 text-slate-600",
+  tolling_raw_material: "bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-300",
+  tolling_finished_goods: "bg-teal-100 text-teal-700 dark:bg-teal-900/20 dark:text-teal-300",
 };

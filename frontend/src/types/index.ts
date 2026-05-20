@@ -40,7 +40,7 @@ export interface User {
 }
 
 // ─── Warehouse ─────────────────────────────────────────────────────────────────
-export type WarehouseType = "cotton" | "fiber" | "wip" | "yarn" | "waste" | "other";
+export type WarehouseType = "cotton" | "fiber" | "wip" | "yarn" | "waste" | "other" | "tolling_raw_material" | "tolling_finished_goods";
 export type ProductType = "raw_cotton" | "fiber" | "seed" | "lint" | "yarn" | "waste" | "other";
 
 export interface Warehouse {
@@ -149,6 +149,14 @@ export interface YarnBatch {
   notes: string;
   created_at: string;
   expenses?: BatchExpense[];
+  // Tolling fields
+  tolling_contract: string | null;
+  processor_yarn_kg: string;
+  customer_yarn_kg: string;
+  loss_yarn_kg: string;
+  service_fee_per_kg_fiber: string;
+  total_service_fee: string;
+  total_service_fee_with_vat: string;
 }
 
 export interface BatchExpense {
@@ -264,4 +272,122 @@ export interface Notification {
   message: string;
   is_read: boolean;
   created_at: string;
+}
+
+// ─── Tolling ───────────────────────────────────────────────────────────────────
+export type TollingContractStatus = "draft" | "active" | "suspended" | "completed" | "cancelled";
+export type TollingContractType = "external" | "internal";
+export type TollingReceiptStatus = "draft" | "received" | "in_production" | "completed";
+export type TollingDeliveryStatus = "pending" | "ready" | "delivered" | "cancelled";
+export type TollingInvoiceStatus = "draft" | "issued" | "paid" | "partially_paid" | "overdue" | "cancelled";
+
+export interface TollingContract {
+  id: string;
+  contract_number: string;
+  contract_date: string;
+  contract_type: TollingContractType;
+  contract_type_display: string;
+  status: TollingContractStatus;
+  status_display: string;
+  customer_name: string;
+  customer_inn: string;
+  customer_address: string;
+  customer_contact_person: string;
+  customer_phone: string;
+  start_date: string;
+  end_date: string;
+  days_until_expiry: number;
+  is_active: boolean;
+  yarn_price_usd: string;
+  exchange_rate: string;
+  processor_share_pct: string;
+  customer_share_pct: string;
+  loss_share_pct: string;
+  target_yarn_product: string | null;
+  target_yarn_product_name: string;
+  min_fiber_quality_grade: string;
+  max_waste_pct: string | null;
+  vat_included: boolean;
+  advance_payment_pct: string;
+  payment_term_days: number;
+  raw_material_warehouse: string | null;
+  raw_material_warehouse_name: string;
+  finished_goods_warehouse: string | null;
+  finished_goods_warehouse_name: string;
+  notes: string;
+  created_at: string;
+}
+
+export interface TollingRawReceipt {
+  id: string;
+  contract: string;
+  contract_number: string;
+  customer_name: string;
+  receipt_number: string;
+  receipt_date: string;
+  status: TollingReceiptStatus;
+  status_display: string;
+  ttn_number: string;
+  fiber_product: string;
+  fiber_product_name: string;
+  quantity_kg: string;
+  moisture_pct: string | null;
+  impurity_pct: string | null;
+  quality_grade: string;
+  supplier_name: string;
+  notes: string;
+  created_at: string;
+}
+
+export interface TollingDelivery {
+  id: string;
+  contract: string;
+  contract_number: string;
+  customer_name: string;
+  yarn_batch: string;
+  batch_code: string;
+  delivery_number: string;
+  delivery_date: string;
+  status: TollingDeliveryStatus;
+  status_display: string;
+  quantity_kg: string;
+  delivery_act_number: string;
+  ttn_number: string;
+  quality_certificate_number: string;
+  recipient_name: string;
+  notes: string;
+  created_at: string;
+}
+
+export interface TollingInvoice {
+  id: string;
+  contract: string;
+  contract_number: string;
+  customer_name: string;
+  yarn_batch: string;
+  batch_code: string;
+  delivery: string | null;
+  invoice_number: string;
+  invoice_date: string;
+  status: TollingInvoiceStatus;
+  status_display: string;
+  base_amount: string;
+  vat_amount: string;
+  total_amount: string;
+  paid_amount: string;
+  balance_due: string;
+  is_overdue: boolean;
+  payment_due_date: string;
+  notes: string;
+  created_at: string;
+}
+
+export interface TollingContractStats {
+  total_fiber_received_kg: string;
+  total_yarn_produced_kg: string;
+  total_customer_yarn_kg: string;
+  total_service_fee: string;
+  total_paid: string;
+  balance_due: string;
+  days_until_expiry: number;
 }

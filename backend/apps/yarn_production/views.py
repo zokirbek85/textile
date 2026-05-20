@@ -24,7 +24,7 @@ class YarnBatchViewSet(viewsets.ModelViewSet):
     serializer_class = YarnBatchSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ["status", "start_date", "yarn_product"]
+    filterset_fields = ["status", "start_date", "yarn_product", "tolling_contract"]
     search_fields = ["batch_code", "notes"]
     ordering_fields = ["start_date", "yarn_output_kg", "calculated_yarn_cost_per_kg"]
     ordering = ["-start_date"]
@@ -105,6 +105,16 @@ class YarnBatchViewSet(viewsets.ModelViewSet):
     def cost_breakdown(self, request, pk=None):
         batch = self.get_object()
         return Response(services.get_yarn_batch_cost_breakdown(batch))
+
+    @action(detail=True, methods=["post"], url_path="complete-tolling")
+    def complete_tolling(self, request, pk=None):
+        from apps.tolling.services import complete_tolling_yarn_batch
+        batch = self.get_object()
+        try:
+            result = complete_tolling_yarn_batch(batch=batch, user=request.user)
+        except (BusinessLogicError, InsufficientStockError) as e:
+            return Response({"detail": e.message}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(result)
 
 
 class YarnShiftViewSet(viewsets.ModelViewSet):

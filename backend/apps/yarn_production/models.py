@@ -48,6 +48,25 @@ class YarnBatch(AuditedModel):
 
     notes = models.TextField(blank=True)
 
+    # ─── Tolling fields ───────────────────────────────────────────────────────
+    tolling_contract = models.ForeignKey(
+        "tolling.TollingContract", on_delete=models.PROTECT,
+        related_name="yarn_batches", null=True, blank=True,
+    )
+    raw_material_receipt = models.ForeignKey(
+        "tolling.TollingRawMaterialReceipt", on_delete=models.SET_NULL,
+        related_name="yarn_batches", null=True, blank=True,
+    )
+    processor_yarn_kg = models.DecimalField(max_digits=14, decimal_places=3, default=Decimal("0"))
+    customer_yarn_kg = models.DecimalField(max_digits=14, decimal_places=3, default=Decimal("0"))
+    loss_yarn_kg = models.DecimalField(max_digits=14, decimal_places=3, default=Decimal("0"))
+    hard_waste_kg = models.DecimalField(max_digits=14, decimal_places=3, default=Decimal("0"))
+    soft_waste_kg = models.DecimalField(max_digits=14, decimal_places=3, default=Decimal("0"))
+    pneumo_waste_kg = models.DecimalField(max_digits=14, decimal_places=3, default=Decimal("0"))
+    service_fee_per_kg_fiber = models.DecimalField(max_digits=20, decimal_places=4, default=Decimal("0"))
+    total_service_fee = models.DecimalField(max_digits=20, decimal_places=4, default=Decimal("0"))
+    total_service_fee_with_vat = models.DecimalField(max_digits=20, decimal_places=4, default=Decimal("0"))
+
     class Meta:
         db_table = "yarn_batches"
         ordering = ["-start_date", "-created_at"]
@@ -59,6 +78,10 @@ class YarnBatch(AuditedModel):
     @property
     def net_cost(self) -> Decimal:
         return self.fiber_cost_total + self.total_spinning_expenses
+
+    @property
+    def is_tolling(self) -> bool:
+        return self.tolling_contract_id is not None
 
 
 class YarnBatchExpense(AuditedModel):

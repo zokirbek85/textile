@@ -10,13 +10,15 @@ class WarehouseType(models.TextChoices):
     WIP = "wip", "WIP Warehouse"
     YARN = "yarn", "Yarn Warehouse"
     WASTE = "waste", "Waste Warehouse"
+    TOLLING_RAW = "tolling_raw_material", "Tolling Raw Material"
+    TOLLING_FG = "tolling_finished_goods", "Tolling Finished Goods"
     OTHER = "other", "Other"
 
 
 class Warehouse(AuditedModel):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=20, unique=True)
-    warehouse_type = models.CharField(max_length=20, choices=WarehouseType.choices)
+    warehouse_type = models.CharField(max_length=25, choices=WarehouseType.choices)
     location = models.CharField(max_length=255, blank=True)
     capacity_kg = models.DecimalField(max_digits=14, decimal_places=3, null=True, blank=True)
     is_active = models.BooleanField(default=True)

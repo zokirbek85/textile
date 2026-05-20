@@ -6,6 +6,7 @@ import type {
   CostSnapshot, YarnCurrentCost, CostTrendPoint,
   DashboardOverview, ProductionTrendPoint,
   FinancialTransaction, FinancialSummary,
+  TollingContract, TollingRawReceipt, TollingDelivery, TollingInvoice, TollingContractStats,
 } from "@/types";
 
 // ─── Auth ──────────────────────────────────────────────────────────────────────
@@ -154,6 +155,51 @@ export const analyticsApi = {
     api.get("/analytics/cost-comparison/", { params: { limit } }),
   productionOverview: () =>
     api.get("/analytics/production-overview/"),
+};
+
+// ─── Tolling ───────────────────────────────────────────────────────────────────
+export const tollingApi = {
+  // Contracts
+  listContracts: (params?: Record<string, unknown>) =>
+    api.get<PaginatedResponse<TollingContract>>("/tolling/contracts/", { params }),
+  getContract: (id: string) =>
+    api.get<TollingContract>(`/tolling/contracts/${id}/`),
+  createContract: (data: unknown) =>
+    api.post<TollingContract>("/tolling/contracts/", data),
+  updateContract: (id: string, data: unknown) =>
+    api.patch<TollingContract>(`/tolling/contracts/${id}/`, data),
+  activateContract: (id: string) =>
+    api.post<TollingContract>(`/tolling/contracts/${id}/activate/`),
+  suspendContract: (id: string) =>
+    api.post<TollingContract>(`/tolling/contracts/${id}/suspend/`),
+  completeContract: (id: string) =>
+    api.post<TollingContract>(`/tolling/contracts/${id}/complete/`),
+  getContractStats: (id: string) =>
+    api.get<TollingContractStats>(`/tolling/contracts/${id}/statistics/`),
+  getContractReceipts: (id: string) =>
+    api.get<TollingRawReceipt[]>(`/tolling/contracts/${id}/receipts/`),
+  getContractDeliveries: (id: string) =>
+    api.get<TollingDelivery[]>(`/tolling/contracts/${id}/deliveries/`),
+  getContractInvoices: (id: string) =>
+    api.get<TollingInvoice[]>(`/tolling/contracts/${id}/invoices/`),
+
+  // Receipts
+  createReceipt: (data: unknown) =>
+    api.post<TollingRawReceipt>("/tolling/receipts/", data),
+  receiveRawMaterial: (id: string) =>
+    api.post<TollingRawReceipt>(`/tolling/receipts/${id}/receive/`),
+
+  // Deliveries
+  createDelivery: (data: unknown) =>
+    api.post<TollingDelivery>("/tolling/deliveries/", data),
+  completeDelivery: (id: string) =>
+    api.post(`/tolling/deliveries/${id}/complete/`),
+
+  // Invoices
+  listInvoices: (params?: Record<string, unknown>) =>
+    api.get<PaginatedResponse<TollingInvoice>>("/tolling/invoices/", { params }),
+  recordPayment: (id: string, amount: string) =>
+    api.post<TollingInvoice>(`/tolling/invoices/${id}/record-payment/`, { amount }),
 };
 
 // ─── Download helper ───────────────────────────────────────────────────────────

@@ -13,6 +13,7 @@ export interface Translations {
     dashboard: string; warehouses: string; production: string;
     costing: string; finance: string; analytics: string;
     reports: string; users: string; settings: string; notifications: string;
+    tolling: string;
   };
   dashboard: {
     title: string; todayFiber: string; cottonToFiber: string;
@@ -106,6 +107,36 @@ export interface Translations {
     statusCancelled: string; statusActive: string; statusInactive: string;
     notifications: string; noNotifications: string; markAllRead: string;
   };
+  tolling: {
+    title: string; contracts: string; newContract: string;
+    contractNumber: string; contractDate: string; customer: string;
+    customerInn: string; startDate: string; endDate: string;
+    status: string; contractType: string;
+    external: string; internal: string;
+    yarnPriceUsd: string; exchangeRate: string;
+    processorShare: string; customerShare: string; lossShare: string;
+    targetYarnProduct: string; vatIncluded: string; paymentTermDays: string;
+    rawWarehouse: string; fgWarehouse: string;
+    statusDraft: string; statusActive: string; statusSuspended: string;
+    statusCompleted: string; statusCancelled: string;
+    receipts: string; newReceipt: string; receiptNumber: string; receiptDate: string;
+    fiberProduct: string; quantityKg: string; qualityGrade: string;
+    ttnNumber: string; supplierName: string; receiveBtn: string; received: string;
+    deliveries: string; newDelivery: string; deliveryDate: string; deliveryNumber: string;
+    deliverBtn: string; delivered: string;
+    invoices: string; invoiceNumber: string; invoiceDate: string;
+    baseAmount: string; vatAmount: string; totalAmount: string;
+    paidAmount: string; balanceDue: string; paymentDue: string;
+    recordPayment: string; paymentAmount: string;
+    totalFiberReceived: string; totalYarnProduced: string; totalServiceFee: string;
+    totalPaid: string; contractBalance: string; daysUntilExpiry: string;
+    processorYarnKg: string; customerYarnKg: string; lossYarnKg: string;
+    serviceFeePerKg: string;
+    activate: string; suspend: string; creating: string; contractCreated: string;
+    notes: string; advancePaymentPct: string;
+    colContract: string; colCustomer: string; colStatus: string;
+    colTotal: string; colBalance: string; colDate: string;
+  };
 }
 
 const en: Translations = {
@@ -120,6 +151,7 @@ const en: Translations = {
     dashboard: "Dashboard", warehouses: "Warehouses", production: "Production",
     costing: "Costing", finance: "Finance", analytics: "Analytics",
     reports: "Reports", users: "Users", settings: "Settings", notifications: "Notifications",
+    tolling: "Tolling",
   },
   dashboard: {
     title: "Dashboard", todayFiber: "Today Fiber Produced", cottonToFiber: "Cotton → Fiber",
@@ -242,6 +274,39 @@ const en: Translations = {
     statusCancelled: "Cancelled", statusActive: "Active", statusInactive: "Inactive",
     notifications: "Notifications", noNotifications: "No new notifications", markAllRead: "Mark all read",
   },
+  tolling: {
+    title: "Tolling Contracts", contracts: "Contracts", newContract: "New Contract",
+    contractNumber: "Contract #", contractDate: "Contract Date", customer: "Customer",
+    customerInn: "INN", startDate: "Start Date", endDate: "End Date",
+    status: "Status", contractType: "Type",
+    external: "External", internal: "Internal",
+    yarnPriceUsd: "Yarn Price (USD/kg)", exchangeRate: "Exchange Rate (UZS/USD)",
+    processorShare: "Processor Share %", customerShare: "Customer Share %", lossShare: "Loss/Fire %",
+    targetYarnProduct: "Target Yarn Product", vatIncluded: "VAT Included (12%)",
+    paymentTermDays: "Payment Term (days)",
+    rawWarehouse: "Raw Material Warehouse", fgWarehouse: "Finished Goods Warehouse",
+    statusDraft: "Draft", statusActive: "Active", statusSuspended: "Suspended",
+    statusCompleted: "Completed", statusCancelled: "Cancelled",
+    receipts: "Raw Material Receipts", newReceipt: "Receive Fiber", receiptNumber: "Receipt #",
+    receiptDate: "Receipt Date", fiberProduct: "Fiber Product", quantityKg: "Quantity (kg)",
+    qualityGrade: "Quality Grade", ttnNumber: "TTN #", supplierName: "Supplier",
+    receiveBtn: "Mark Received", received: "Received",
+    deliveries: "Deliveries", newDelivery: "New Delivery", deliveryDate: "Delivery Date",
+    deliveryNumber: "Delivery #", deliverBtn: "Complete Delivery", delivered: "Delivered",
+    invoices: "Invoices", invoiceNumber: "Invoice #", invoiceDate: "Invoice Date",
+    baseAmount: "Base Amount", vatAmount: "VAT (12%)", totalAmount: "Total",
+    paidAmount: "Paid", balanceDue: "Balance Due", paymentDue: "Payment Due",
+    recordPayment: "Record Payment", paymentAmount: "Payment Amount",
+    totalFiberReceived: "Fiber Received", totalYarnProduced: "Yarn Produced",
+    totalServiceFee: "Service Fee (incl. VAT)", totalPaid: "Total Paid",
+    contractBalance: "Outstanding Balance", daysUntilExpiry: "Days Until Expiry",
+    processorYarnKg: "Processor Share (kg)", customerYarnKg: "Customer Share (kg)",
+    lossYarnKg: "Fire/Loss (kg)", serviceFeePerKg: "Service Fee/kg Fiber",
+    activate: "Activate", suspend: "Suspend", creating: "Creating…",
+    contractCreated: "Contract created", notes: "Notes", advancePaymentPct: "Advance %",
+    colContract: "Contract", colCustomer: "Customer", colStatus: "Status",
+    colTotal: "Total (UZS)", colBalance: "Balance", colDate: "Date",
+  },
 };
 
 const ru: Translations = {
@@ -256,6 +321,7 @@ const ru: Translations = {
     dashboard: "Панель", warehouses: "Склады", production: "Производство",
     costing: "Калькуляция", finance: "Финансы", analytics: "Аналитика",
     reports: "Отчёты", users: "Пользователи", settings: "Настройки", notifications: "Уведомления",
+    tolling: "Давальческий",
   },
   dashboard: {
     title: "Панель управления", todayFiber: "Волокно за сегодня", cottonToFiber: "Хлопок → Волокно",
@@ -378,6 +444,39 @@ const ru: Translations = {
     statusCancelled: "Отменено", statusActive: "Активный", statusInactive: "Неактивный",
     notifications: "Уведомления", noNotifications: "Нет новых уведомлений", markAllRead: "Отметить все прочитанными",
   },
+  tolling: {
+    title: "Давальческие Контракты", contracts: "Контракты", newContract: "Новый контракт",
+    contractNumber: "Контракт №", contractDate: "Дата контракта", customer: "Заказчик",
+    customerInn: "ИНН", startDate: "Дата начала", endDate: "Дата окончания",
+    status: "Статус", contractType: "Тип",
+    external: "Внешний", internal: "Внутренний",
+    yarnPriceUsd: "Цена пряжи (USD/кг)", exchangeRate: "Курс (UZS/USD)",
+    processorShare: "Доля переработчика %", customerShare: "Доля давальца %", lossShare: "Угар %",
+    targetYarnProduct: "Продукт пряжи", vatIncluded: "НДС включен (12%)",
+    paymentTermDays: "Срок оплаты (дней)",
+    rawWarehouse: "Склад сырья", fgWarehouse: "Склад готовой продукции",
+    statusDraft: "Черновик", statusActive: "Активный", statusSuspended: "Приостановлен",
+    statusCompleted: "Завершён", statusCancelled: "Отменён",
+    receipts: "Приём сырья", newReceipt: "Принять волокно", receiptNumber: "Квитанция №",
+    receiptDate: "Дата приёма", fiberProduct: "Продукт (волокно)", quantityKg: "Количество (кг)",
+    qualityGrade: "Сорт качества", ttnNumber: "ТТН №", supplierName: "Поставщик",
+    receiveBtn: "Принять", received: "Принято",
+    deliveries: "Выдача продукции", newDelivery: "Новая выдача", deliveryDate: "Дата выдачи",
+    deliveryNumber: "Выдача №", deliverBtn: "Завершить выдачу", delivered: "Выдано",
+    invoices: "Счета-фактуры", invoiceNumber: "Счёт №", invoiceDate: "Дата счёта",
+    baseAmount: "Базовая сумма", vatAmount: "НДС (12%)", totalAmount: "Итого",
+    paidAmount: "Оплачено", balanceDue: "Остаток долга", paymentDue: "Срок оплаты",
+    recordPayment: "Зафиксировать оплату", paymentAmount: "Сумма оплаты",
+    totalFiberReceived: "Принято волокна", totalYarnProduced: "Произведено пряжи",
+    totalServiceFee: "Услуга (с НДС)", totalPaid: "Оплачено",
+    contractBalance: "Задолженность", daysUntilExpiry: "Дней до окончания",
+    processorYarnKg: "Доля переработчика (кг)", customerYarnKg: "Доля давальца (кг)",
+    lossYarnKg: "Угар (кг)", serviceFeePerKg: "Услуга/кг волокна",
+    activate: "Активировать", suspend: "Приостановить", creating: "Создание…",
+    contractCreated: "Контракт создан", notes: "Примечания", advancePaymentPct: "Аванс %",
+    colContract: "Контракт", colCustomer: "Заказчик", colStatus: "Статус",
+    colTotal: "Сумма (UZS)", colBalance: "Задолженность", colDate: "Дата",
+  },
 };
 
 const uz: Translations = {
@@ -392,6 +491,7 @@ const uz: Translations = {
     dashboard: "Boshqaruv", warehouses: "Omborxonalar", production: "Ishlab chiqarish",
     costing: "Narxlash", finance: "Moliya", analytics: "Tahlil",
     reports: "Hisobotlar", users: "Foydalanuvchilar", settings: "Sozlamalar", notifications: "Bildirishnomalar",
+    tolling: "Daval",
   },
   dashboard: {
     title: "Boshqaruv paneli", todayFiber: "Bugungi tola", cottonToFiber: "Paxta → Tola",
@@ -513,6 +613,39 @@ const uz: Translations = {
     statusDraft: "Qoralama", statusInProgress: "Jarayonda", statusCompleted: "Yakunlandi",
     statusCancelled: "Bekor qilindi", statusActive: "Faol", statusInactive: "Faolsiz",
     notifications: "Bildirishnomalar", noNotifications: "Yangi bildirishnomalar yo'q", markAllRead: "Hammasini o'qilgan deb belgilash",
+  },
+  tolling: {
+    title: "Daval Shartnomalar", contracts: "Shartnomalar", newContract: "Yangi shartnoma",
+    contractNumber: "Shartnoma №", contractDate: "Shartnoma sanasi", customer: "Mijoz",
+    customerInn: "INN", startDate: "Boshlanish sanasi", endDate: "Tugash sanasi",
+    status: "Holat", contractType: "Tur",
+    external: "Tashqi", internal: "Ichki",
+    yarnPriceUsd: "Ip narxi (USD/kg)", exchangeRate: "Kurs (UZS/USD)",
+    processorShare: "Qayta ishlovchi ulushi %", customerShare: "Davaletsiy ulushi %", lossShare: "Fire %",
+    targetYarnProduct: "Ip mahsuloti", vatIncluded: "QQS qo'shiladi (12%)",
+    paymentTermDays: "To'lov muddati (kun)",
+    rawWarehouse: "Xom ashyo ombori", fgWarehouse: "Tayyor mahsulot ombori",
+    statusDraft: "Qoralama", statusActive: "Faol", statusSuspended: "To'xtatilgan",
+    statusCompleted: "Yakunlangan", statusCancelled: "Bekor qilingan",
+    receipts: "Xom ashyo qabul", newReceipt: "Tola qabul qilish", receiptNumber: "Qabul №",
+    receiptDate: "Qabul sanasi", fiberProduct: "Tola mahsuloti", quantityKg: "Miqdor (kg)",
+    qualityGrade: "Sifat darajasi", ttnNumber: "TTN №", supplierName: "Yetkazib beruvchi",
+    receiveBtn: "Qabul qilish", received: "Qabul qilindi",
+    deliveries: "Topshirish", newDelivery: "Yangi topshirish", deliveryDate: "Topshirish sanasi",
+    deliveryNumber: "Topshirish №", deliverBtn: "Topshirishni yakunlash", delivered: "Topshirildi",
+    invoices: "Hisob-fakturalar", invoiceNumber: "Faktura №", invoiceDate: "Faktura sanasi",
+    baseAmount: "Asosiy summa", vatAmount: "QQS (12%)", totalAmount: "Jami",
+    paidAmount: "To'langan", balanceDue: "Qoldiq qarz", paymentDue: "To'lov muddati",
+    recordPayment: "To'lovni qayd etish", paymentAmount: "To'lov summasi",
+    totalFiberReceived: "Qabul qilingan tola", totalYarnProduced: "Ishlab chiqarilgan ip",
+    totalServiceFee: "Xizmat haqi (QQS bilan)", totalPaid: "Jami to'langan",
+    contractBalance: "Qoldiq qarz", daysUntilExpiry: "Tugashiga kun",
+    processorYarnKg: "Qayta ishlovchi ulushi (kg)", customerYarnKg: "Davaletsiy ulushi (kg)",
+    lossYarnKg: "Fire (kg)", serviceFeePerKg: "Xizmat haqi/kg tola",
+    activate: "Faollashtirish", suspend: "To'xtatish", creating: "Yaratilmoqda…",
+    contractCreated: "Shartnoma yaratildi", notes: "Izohlar", advancePaymentPct: "Avans %",
+    colContract: "Shartnoma", colCustomer: "Mijoz", colStatus: "Holat",
+    colTotal: "Jami (UZS)", colBalance: "Qoldiq", colDate: "Sana",
   },
 };
 
