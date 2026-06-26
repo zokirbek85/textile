@@ -45,11 +45,20 @@ class YarnBatchViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         d = serializer.validated_data
         from apps.warehouse.models import Warehouse, Product
+        from apps.tolling.models import TollingContract
         try:
             yarn_product = Product.objects.get(id=d["yarn_product_id"])
-            src = Warehouse.objects.get(id=d["fiber_source_warehouse_id"])
-            tgt = Warehouse.objects.get(id=d["yarn_target_warehouse_id"])
-        except (Warehouse.DoesNotExist, Product.DoesNotExist) as e:
+            tolling_contract = None
+            if d.get("tolling_contract_id"):
+                tolling_contract = TollingContract.objects.get(id=d["tolling_contract_id"])
+                src = tolling_contract.raw_material_warehouse
+            else:
+                src = Warehouse.objects.get(id=d["fiber_source_warehouse_id"])
+            tgt = (
+                Warehouse.objects.get(id=d["yarn_target_warehouse_id"])
+                if d.get("yarn_target_warehouse_id") else None
+            )
+        except (Warehouse.DoesNotExist, Product.DoesNotExist, TollingContract.DoesNotExist) as e:
             return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
 
         batch = services.create_yarn_batch(
@@ -57,6 +66,7 @@ class YarnBatchViewSet(viewsets.ModelViewSet):
             yarn_product=yarn_product,
             fiber_source_warehouse=src,
             yarn_target_warehouse=tgt,
+            tolling_contract=tolling_contract,
             notes=d.get("notes", ""),
             user=request.user,
         )
@@ -110,8 +120,12 @@ class YarnBatchViewSet(viewsets.ModelViewSet):
     def complete_tolling(self, request, pk=None):
         from apps.tolling.services import complete_tolling_yarn_batch
         batch = self.get_object()
+        serializer = CompleteYarnBatchSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         try:
-            result = complete_tolling_yarn_batch(batch=batch, user=request.user)
+            result = complete_tolling_yarn_batch(
+                batch=batch, user=request.user, **serializer.validated_data
+            )
         except (BusinessLogicError, InsufficientStockError) as e:
             return Response({"detail": e.message}, status=status.HTTP_400_BAD_REQUEST)
         return Response(result)

@@ -13,7 +13,7 @@ export interface Translations {
     dashboard: string; warehouses: string; production: string;
     costing: string; finance: string; analytics: string;
     reports: string; users: string; settings: string; notifications: string;
-    tolling: string;
+    tolling: string; quality: string; maintenance: string;
   };
   dashboard: {
     title: string; todayFiber: string; cottonToFiber: string;
@@ -35,6 +35,9 @@ export interface Translations {
     colCode: string; colUnit: string;
     wtCotton: string; wtFiber: string; wtWip: string; wtYarn: string; wtWaste: string; wtOther: string;
     ptRawCotton: string; ptFiber: string; ptSeed: string; ptLint: string; ptYarn: string; ptWaste: string; ptOther: string;
+    sourceType: string; sourceOwn: string; sourceTolling: string; tollingCompany: string; selectContract: string;
+    editWarehouseTitle: string; editProductTitle: string; deleteWarehouseConfirm: string; deleteProductConfirm: string;
+    productUpdated: string; warehouseDeleted: string; productDeleted: string;
   };
   production: {
     newBatch: string; activeCottonBatches: string; activeYarnBatches: string;
@@ -44,7 +47,6 @@ export interface Translations {
     colStart: string; colEnd: string; colCottonInput: string; colFiberOutput: string;
     colYield: string; colFiberCostKg: string; colFiberInput: string;
     colYarnOutput: string; colWastePct: string; colEfficiency: string; colCostKg: string;
-    // detail page
     backToList: string; addCottonInput: string; addFiberInput: string;
     addExpense: string; completeBatch: string; completing: string;
     batchCompleted: string; adding: string; inputAdded: string; expenseAdded: string;
@@ -57,6 +59,24 @@ export interface Translations {
     netCost: string; totalExpenses: string; byproductCredits: string;
     newCottonBatchTitle: string; newYarnBatchTitle: string;
     startDate: string; selectYarnProduct: string; batchCreated: string; creating: string;
+    orders: string; ordersTab: string; shiftReportsTab: string;
+    newOrder: string; newShiftReport: string;
+    ordersInProgress: string; ordersDelayed: string; completedToday: string;
+    outputToday: string; avgConversion: string; activeLines: string;
+    pendingQC: string; colOrder: string; colLine: string; colBrigade: string;
+    colShift: string; colPlanned: string; colActual: string;
+    colCompletion: string; colSupervisor: string;
+    colConversion: string; colReport: string; colDate: string;
+    colWorkers: string; colRuntime: string; colDowntime: string; colOEE: string;
+    approve: string; startProduction: string; completeOrder: string; cancelOrder: string;
+    orderApproved: string; orderStarted: string;
+    orderCompleted: string; orderCancelled: string;
+    qcPassed: string; qcFailed: string;
+    traceability: string; batchDetails: string;
+    brigadeAnalytics: string; reportSubmitted: string;
+    reportApproved: string; submitReport: string; approveReport: string;
+    colInputKg: string; colOutputKg: string; colWasteKg: string;
+    fiberSourceWarehouse: string; yarnTargetWarehouse: string;
   };
   costing: {
     title: string; avgYarnCostMonth: string; avgFiberCostMonth: string;
@@ -137,6 +157,100 @@ export interface Translations {
     colContract: string; colCustomer: string; colStatus: string;
     colTotal: string; colBalance: string; colDate: string;
   };
+  quality: {
+    title: string; dashboard: string;
+    tests: string; newTest: string; testNumber: string; testType: string;
+    testDate: string; testedBy: string; labEquipment: string;
+    sampleSizeKg: string; sampleLocation: string; sampleTakenBy: string;
+    overallResult: string; qualityGrade: string; approvedForUse: string;
+    batchNumber: string; productName: string;
+    parameters: string; parameterCode: string; measuredValue: string;
+    withinSpec: string; deviation: string;
+    passRate: string; totalTests: string; passed: string; failed: string;
+    certificates: string; certificateNumber: string; issueDate: string; validUntil: string;
+    issuedBy: string; approvedBy: string; compliesWith: string; cancelCertificate: string;
+    defects: string; newDefect: string; defectNumber: string; defectType: string;
+    severity: string; quantityAffected: string; detectedBy: string; detectedDate: string;
+    rootCause: string; correctiveAction: string; disposition: string;
+    resolveDefect: string; defectResolved: string;
+    evaluate: string; evaluating: string; evaluated: string;
+    approve: string; approving: string; approveTest: string; testApproved: string;
+    rejectTest: string; rejectionReason: string; testRejected: string;
+    issueCert: string; certIssued: string;
+    gradeA: string; gradeB: string; gradeC: string;
+    statusPending: string; statusPassed: string; statusFailed: string;
+    statusConditional: string; statusRetest: string;
+    defectOpen: string; defectInvestigating: string; defectResolved2: string; defectClosed: string;
+    incomingRaw: string; inProcess: string; finalProduct: string; periodic: string;
+    colTest: string; colType: string; colBatch: string; colProduct: string;
+    colDate: string; colResult: string; colGrade: string; colApproved: string;
+    colCertificate: string; colIssueDate: string; colValid: string;
+    colDefect: string; colSeverity: string; colQty: string; colStatus: string;
+    complianceScore: string; gradeDistribution: string; defectPareto: string;
+    passRateTrend: string; noTests: string; noCertificates: string; noDefects: string;
+  };
+  maintenance: {
+    title: string; dashboard: string; equipment: string; records: string;
+    downtime: string; spareParts: string; schedules: string;
+    newEquipment: string; newRecord: string; reportDowntime: string;
+    equipmentCode: string; equipmentName: string; equipmentType: string;
+    manufacturer: string; model: string; serialNumber: string;
+    location: string; status: string; nextMaintenance: string;
+    lastMaintenance: string; operatingHours: string; isOverdue: string;
+    statusOperational: string; statusMaintenance: string; statusBreakdown: string;
+    statusIdle: string; statusDecommissioned: string;
+    oee: string; oeeTitle: string; availability: string;
+    performance: string; quality: string;
+    scheduledDate: string; maintenanceType: string; technician: string;
+    duration: string; laborCost: string; partsCost: string; totalCost: string;
+    workDescription: string; findings: string; recommendations: string;
+    startMaintenance: string; completeMaintenance: string; approveMaintenance: string;
+    maintenanceStarted: string; maintenanceCompleted: string; maintenanceApproved: string;
+    typePreventive: string; typeCorrective: string; typePredictive: string;
+    typeEmergency: string; typeOverhaul: string;
+    partCode: string; partName: string; category: string; currentStock: string;
+    minimumStock: string; unitCost: string; lowStock: string; restock: string;
+    restockQty: string; restocked: string; isCritical: string;
+    downtimeNumber: string; downtimeType: string; reason: string;
+    startTime: string; endTime: string; durationHours: string;
+    productionLoss: string; actionTaken: string; resolve: string; resolved: string;
+    active: string; mttr: string; totalDowntime: string;
+    usePart: string; partUsed: string; quantity: string; condition: string;
+    colEquipment: string; colType: string; colStatus: string; colNext: string;
+    colRecord: string; colDate: string; colTechnician: string; colCost: string;
+    colDowntime: string; colDuration: string; colReason: string;
+    colPart: string; colStock: string; colMin: string; colReorder: string;
+    noEquipment: string; noRecords: string; noDowntime: string; noParts: string;
+    upcomingMaintenance: string; overdueAlert: string; lowStockAlert: string;
+    activeDowntime: string; avgOEE: string; maintenanceCost: string;
+  };
+  advancedAnalytics: {
+    title: string; executiveDashboard: string;
+    costAnalysis: string; profitability: string; kpiDashboard: string; forecasting: string;
+    standardCosts: string; actualCosts: string;
+    newStandardCost: string; newActualCost: string; newAnalysis: string; newForecast: string;
+    costPeriod: string; rawMaterialCost: string; laborCost: string;
+    overheadCost: string; energyCost: string; totalStandardCost: string;
+    maintenanceCost: string; wasteCost: string; totalActualCost: string;
+    costPerKg: string; quantityKg: string;
+    revenue: string; cogs: string; grossProfit: string; grossMargin: string;
+    overhead: string; netProfit: string; netMargin: string; revenuePerKg: string;
+    efficiency: string; qualityPassRate: string; wastePct: string;
+    downtimeHours: string; oee: string; energyKwh: string;
+    forecastQty: string; actualQty: string; accuracy: string;
+    confidenceLow: string; confidenceHigh: string; method: string;
+    methodMovingAvg: string; methodLinearReg: string; methodManual: string;
+    periodWeekly: string; periodMonthly: string; periodQuarterly: string;
+    compareStdVsActual: string; variance: string;
+    costBreakdown: string; costTrend: string; profitabilityTrend: string;
+    noData: string; updateActual: string; actualUpdated: string;
+    colProduct: string; colPeriod: string; colStdCost: string; colActualCost: string;
+    colVariance: string; colRevenue: string; colNetProfit: string; colMargin: string;
+    colDate: string; colLine: string; colEfficiency: string; colOEE: string;
+    colForecastQty: string; colActualQty: string; colAccuracy: string;
+    totalOutput: string; avgEfficiency: string; avgOEE: string; activeDowntime: string;
+    totalTests: string; passRate: string; avgNetMargin: string;
+  };
 }
 
 const en: Translations = {
@@ -149,6 +263,7 @@ const en: Translations = {
   },
   nav: {
     dashboard: "Dashboard", warehouses: "Warehouses", production: "Production",
+    quality: "Quality Control", maintenance: "Maintenance",
     costing: "Costing", finance: "Finance", analytics: "Analytics",
     reports: "Reports", users: "Users", settings: "Settings", notifications: "Notifications",
     tolling: "Tolling",
@@ -182,6 +297,11 @@ const en: Translations = {
     colCode: "Code", colUnit: "Unit",
     wtCotton: "Cotton", wtFiber: "Fiber", wtWip: "WIP", wtYarn: "Yarn", wtWaste: "Waste", wtOther: "Other",
     ptRawCotton: "Raw Cotton", ptFiber: "Fiber", ptSeed: "Seed", ptLint: "Lint", ptYarn: "Yarn", ptWaste: "Waste", ptOther: "Other",
+    sourceType: "Source Type", sourceOwn: "Own", sourceTolling: "Tolling", tollingCompany: "Company (Contract)", selectContract: "Select contract",
+    editWarehouseTitle: "Edit Warehouse", editProductTitle: "Edit Product",
+    deleteWarehouseConfirm: "Delete this warehouse? This cannot be undone.",
+    deleteProductConfirm: "Delete this product? This cannot be undone.",
+    productUpdated: "Product updated", warehouseDeleted: "Warehouse deleted", productDeleted: "Product deleted",
   },
   production: {
     newBatch: "New Batch", activeCottonBatches: "Active Cotton Batches",
@@ -207,6 +327,26 @@ const en: Translations = {
     netCost: "Net Cost", totalExpenses: "Total Expenses", byproductCredits: "Byproduct Credits",
     newCottonBatchTitle: "New Cotton Batch", newYarnBatchTitle: "New Yarn Batch",
     startDate: "Start Date", selectYarnProduct: "Yarn Product", batchCreated: "Batch created", creating: "Creating…",
+    fiberSourceWarehouse: "Fiber Warehouse (source)", yarnTargetWarehouse: "Yarn Warehouse (destination)",
+    // Production Orders
+    orders: "Orders", ordersTab: "Production Orders", shiftReportsTab: "Shift Reports",
+    newOrder: "New Order", newShiftReport: "New Shift Report",
+    ordersInProgress: "In Progress", ordersDelayed: "Delayed", completedToday: "Completed Today",
+    outputToday: "Output Today", avgConversion: "Avg Conversion", activeLines: "Active Lines",
+    pendingQC: "Pending QC", colOrder: "Order", colLine: "Line", colBrigade: "Brigade",
+    colShift: "Shift", colPlanned: "Planned", colActual: "Actual",
+    colCompletion: "Completion", colSupervisor: "Supervisor",
+    colConversion: "Conversion", colReport: "Report", colDate: "Date",
+    colWorkers: "Workers", colRuntime: "Runtime", colDowntime: "Downtime",
+    colOEE: "OEE",
+    approve: "Approve", startProduction: "Start", completeOrder: "Complete", cancelOrder: "Cancel",
+    orderApproved: "Order approved", orderStarted: "Production started",
+    orderCompleted: "Order completed", orderCancelled: "Order cancelled",
+    qcPassed: "QC Passed", qcFailed: "QC Failed",
+    traceability: "Traceability", batchDetails: "Batch Details",
+    brigadeAnalytics: "Brigade Performance", reportSubmitted: "Report submitted",
+    reportApproved: "Report approved", submitReport: "Submit", approveReport: "Approve",
+    colInputKg: "Input (kg)", colOutputKg: "Output (kg)", colWasteKg: "Waste (kg)",
   },
   costing: {
     title: "Costing Engine", avgYarnCostMonth: "Avg Yarn Cost (Month)",
@@ -307,6 +447,101 @@ const en: Translations = {
     colContract: "Contract", colCustomer: "Customer", colStatus: "Status",
     colTotal: "Total (UZS)", colBalance: "Balance", colDate: "Date",
   },
+  quality: {
+    title: "Quality Control", dashboard: "QC Dashboard",
+    tests: "Quality Tests", newTest: "New Test", testNumber: "Test #", testType: "Test Type",
+    testDate: "Test Date", testedBy: "Tested By", labEquipment: "Lab Equipment",
+    sampleSizeKg: "Sample Size (kg)", sampleLocation: "Sample Location", sampleTakenBy: "Sample Taken By",
+    overallResult: "Overall Result", qualityGrade: "Grade", approvedForUse: "Approved",
+    batchNumber: "Batch #", productName: "Product",
+    parameters: "Parameters", parameterCode: "Code", measuredValue: "Measured Value",
+    withinSpec: "Within Spec", deviation: "Deviation %",
+    passRate: "Pass Rate", totalTests: "Total Tests", passed: "Passed", failed: "Failed",
+    certificates: "Certificates", certificateNumber: "Cert #", issueDate: "Issue Date", validUntil: "Valid Until",
+    issuedBy: "Issued By", approvedBy: "Approved By", compliesWith: "Complies With", cancelCertificate: "Cancel Certificate",
+    defects: "Defects", newDefect: "Report Defect", defectNumber: "Defect #", defectType: "Defect Type",
+    severity: "Severity", quantityAffected: "Qty Affected (kg)", detectedBy: "Detected By", detectedDate: "Detected Date",
+    rootCause: "Root Cause", correctiveAction: "Corrective Action", disposition: "Disposition",
+    resolveDefect: "Resolve Defect", defectResolved: "Defect resolved",
+    evaluate: "Evaluate", evaluating: "Evaluating…", evaluated: "Results evaluated",
+    approve: "Approve", approving: "Approving…", approveTest: "Approve Test", testApproved: "Test approved",
+    rejectTest: "Reject", rejectionReason: "Rejection Reason", testRejected: "Test rejected",
+    issueCert: "Issue Certificate", certIssued: "Certificate issued",
+    gradeA: "Grade A", gradeB: "Grade B", gradeC: "Grade C",
+    statusPending: "Pending", statusPassed: "Passed", statusFailed: "Failed",
+    statusConditional: "Conditional", statusRetest: "Retest",
+    defectOpen: "Open", defectInvestigating: "Investigating", defectResolved2: "Resolved", defectClosed: "Closed",
+    incomingRaw: "Incoming Raw", inProcess: "In-Process", finalProduct: "Final Product", periodic: "Periodic",
+    colTest: "Test", colType: "Type", colBatch: "Batch", colProduct: "Product",
+    colDate: "Date", colResult: "Result", colGrade: "Grade", colApproved: "Approved",
+    colCertificate: "Certificate", colIssueDate: "Issue Date", colValid: "Valid Until",
+    colDefect: "Defect", colSeverity: "Severity", colQty: "Qty (kg)", colStatus: "Status",
+    complianceScore: "Compliance Score", gradeDistribution: "Grade Distribution", defectPareto: "Defects by Type",
+    passRateTrend: "Pass Rate", noTests: "No quality tests yet", noCertificates: "No certificates issued", noDefects: "No defects reported",
+  },
+  maintenance: {
+    title: "Equipment & Maintenance", dashboard: "Maintenance Dashboard",
+    equipment: "Equipment", records: "Maintenance Records", downtime: "Downtime",
+    spareParts: "Spare Parts", schedules: "Schedules",
+    newEquipment: "New Equipment", newRecord: "New Maintenance", reportDowntime: "Report Downtime",
+    equipmentCode: "Equipment Code", equipmentName: "Equipment Name", equipmentType: "Type",
+    manufacturer: "Manufacturer", model: "Model", serialNumber: "Serial Number",
+    location: "Location", status: "Status", nextMaintenance: "Next Maintenance",
+    lastMaintenance: "Last Maintenance", operatingHours: "Operating Hours", isOverdue: "Overdue",
+    statusOperational: "Operational", statusMaintenance: "Maintenance", statusBreakdown: "Breakdown",
+    statusIdle: "Idle", statusDecommissioned: "Decommissioned",
+    oee: "OEE", oeeTitle: "OEE Dashboard", availability: "Availability",
+    performance: "Performance", quality: "Quality",
+    scheduledDate: "Scheduled Date", maintenanceType: "Maintenance Type", technician: "Technician",
+    duration: "Duration (hrs)", laborCost: "Labor Cost", partsCost: "Parts Cost", totalCost: "Total Cost",
+    workDescription: "Work Description", findings: "Findings", recommendations: "Recommendations",
+    startMaintenance: "Start Maintenance", completeMaintenance: "Complete", approveMaintenance: "Approve",
+    maintenanceStarted: "Maintenance started", maintenanceCompleted: "Maintenance completed", maintenanceApproved: "Maintenance approved",
+    typePreventive: "Preventive", typeCorrective: "Corrective", typePredictive: "Predictive",
+    typeEmergency: "Emergency", typeOverhaul: "Overhaul",
+    partCode: "Part Code", partName: "Part Name", category: "Category", currentStock: "Current Stock",
+    minimumStock: "Min Stock", unitCost: "Unit Cost", lowStock: "Low Stock", restock: "Restock",
+    restockQty: "Quantity to Add", restocked: "Stock updated", isCritical: "Critical",
+    downtimeNumber: "Downtime #", downtimeType: "Downtime Type", reason: "Reason",
+    startTime: "Start Time", endTime: "End Time", durationHours: "Duration (hrs)",
+    productionLoss: "Production Loss (kg)", actionTaken: "Action Taken", resolve: "Resolve", resolved: "Downtime resolved",
+    active: "Active", mttr: "MTTR (hrs)", totalDowntime: "Total Downtime (hrs)",
+    usePart: "Use Part", partUsed: "Part usage recorded", quantity: "Quantity", condition: "Condition",
+    colEquipment: "Equipment", colType: "Type", colStatus: "Status", colNext: "Next Due",
+    colRecord: "Record", colDate: "Date", colTechnician: "Technician", colCost: "Total Cost",
+    colDowntime: "Downtime", colDuration: "Duration", colReason: "Reason",
+    colPart: "Part", colStock: "Stock", colMin: "Min", colReorder: "Reorder?",
+    noEquipment: "No equipment registered", noRecords: "No maintenance records", noDowntime: "No downtime events", noParts: "No spare parts",
+    upcomingMaintenance: "Upcoming Maintenance", overdueAlert: "Overdue", lowStockAlert: "Low Stock",
+    activeDowntime: "Active Downtime", avgOEE: "Avg OEE", maintenanceCost: "Maintenance Cost",
+  },
+  advancedAnalytics: {
+    title: "Advanced Analytics", executiveDashboard: "Executive Dashboard",
+    costAnalysis: "Cost Analysis", profitability: "Profitability", kpiDashboard: "KPI Dashboard", forecasting: "Forecasting",
+    standardCosts: "Standard Costs", actualCosts: "Actual Costs",
+    newStandardCost: "New Standard Cost", newActualCost: "New Actual Cost", newAnalysis: "New Analysis", newForecast: "New Forecast",
+    costPeriod: "Cost Period", rawMaterialCost: "Raw Material Cost", laborCost: "Labor Cost",
+    overheadCost: "Overhead Cost", energyCost: "Energy Cost", totalStandardCost: "Total Standard Cost",
+    maintenanceCost: "Maintenance Cost", wasteCost: "Waste Cost", totalActualCost: "Total Actual Cost",
+    costPerKg: "Cost / kg", quantityKg: "Quantity (kg)",
+    revenue: "Revenue", cogs: "COGS", grossProfit: "Gross Profit", grossMargin: "Gross Margin %",
+    overhead: "Overhead", netProfit: "Net Profit", netMargin: "Net Margin %", revenuePerKg: "Revenue / kg",
+    efficiency: "Efficiency %", qualityPassRate: "Quality Pass Rate", wastePct: "Waste %",
+    downtimeHours: "Downtime Hours", oee: "OEE %", energyKwh: "Energy (kWh)",
+    forecastQty: "Forecast (kg)", actualQty: "Actual (kg)", accuracy: "Accuracy %",
+    confidenceLow: "Conf. Low", confidenceHigh: "Conf. High", method: "Method",
+    methodMovingAvg: "Moving Average", methodLinearReg: "Linear Regression", methodManual: "Manual",
+    periodWeekly: "Weekly", periodMonthly: "Monthly", periodQuarterly: "Quarterly",
+    compareStdVsActual: "Std vs Actual", variance: "Variance",
+    costBreakdown: "Cost Breakdown", costTrend: "Cost Trend", profitabilityTrend: "Profitability Trend",
+    noData: "No data available", updateActual: "Update Actual", actualUpdated: "Actual updated",
+    colProduct: "Product", colPeriod: "Period", colStdCost: "Std Cost/kg", colActualCost: "Actual Cost/kg",
+    colVariance: "Variance", colRevenue: "Revenue", colNetProfit: "Net Profit", colMargin: "Margin",
+    colDate: "Date", colLine: "Line", colEfficiency: "Efficiency", colOEE: "OEE",
+    colForecastQty: "Forecast", colActualQty: "Actual", colAccuracy: "Accuracy",
+    totalOutput: "Total Output", avgEfficiency: "Avg Efficiency", avgOEE: "Avg OEE", activeDowntime: "Active Downtime",
+    totalTests: "Total Tests", passRate: "Pass Rate", avgNetMargin: "Avg Net Margin",
+  },
 };
 
 const ru: Translations = {
@@ -319,6 +554,7 @@ const ru: Translations = {
   },
   nav: {
     dashboard: "Панель", warehouses: "Склады", production: "Производство",
+    quality: "Контроль качества", maintenance: "Техобслуживание",
     costing: "Калькуляция", finance: "Финансы", analytics: "Аналитика",
     reports: "Отчёты", users: "Пользователи", settings: "Настройки", notifications: "Уведомления",
     tolling: "Давальческий",
@@ -352,6 +588,11 @@ const ru: Translations = {
     colCode: "Код", colUnit: "Ед. изм.",
     wtCotton: "Хлопок", wtFiber: "Волокно", wtWip: "НЗП", wtYarn: "Пряжа", wtWaste: "Отходы", wtOther: "Прочее",
     ptRawCotton: "Сырой хлопок", ptFiber: "Волокно", ptSeed: "Семена", ptLint: "Линт", ptYarn: "Пряжа", ptWaste: "Отходы", ptOther: "Прочее",
+    sourceType: "Тип источника", sourceOwn: "Собственное", sourceTolling: "Давальческое", tollingCompany: "Компания (Договор)", selectContract: "Выберите договор",
+    editWarehouseTitle: "Изменить склад", editProductTitle: "Изменить продукт",
+    deleteWarehouseConfirm: "Удалить этот склад? Это действие необратимо.",
+    deleteProductConfirm: "Удалить этот продукт? Это действие необратимо.",
+    productUpdated: "Продукт обновлён", warehouseDeleted: "Склад удалён", productDeleted: "Продукт удалён",
   },
   production: {
     newBatch: "Новая партия", activeCottonBatches: "Активные партии хлопка",
@@ -377,6 +618,26 @@ const ru: Translations = {
     netCost: "Чистые затраты", totalExpenses: "Итого расходы", byproductCredits: "Кредиты за побочные продукты",
     newCottonBatchTitle: "Новая партия хлопка", newYarnBatchTitle: "Новая партия пряжи",
     startDate: "Дата начала", selectYarnProduct: "Продукт (пряжа)", batchCreated: "Партия создана", creating: "Создание…",
+    fiberSourceWarehouse: "Склад волокна (источник)", yarnTargetWarehouse: "Склад пряжи (назначение)",
+    // Production Orders
+    orders: "Заказы", ordersTab: "Производственные заказы", shiftReportsTab: "Сменные отчёты",
+    newOrder: "Новый заказ", newShiftReport: "Новый отчёт",
+    ordersInProgress: "В процессе", ordersDelayed: "Задержаны", completedToday: "Завершено сегодня",
+    outputToday: "Выпуск сегодня", avgConversion: "Ср. конверсия", activeLines: "Активных линий",
+    pendingQC: "Ожидают ОТК", colOrder: "Заказ", colLine: "Линия", colBrigade: "Бригада",
+    colShift: "Смена", colPlanned: "План", colActual: "Факт",
+    colCompletion: "Выполнение", colSupervisor: "Мастер",
+    colConversion: "Конверсия", colReport: "Отчёт", colDate: "Дата",
+    colWorkers: "Рабочих", colRuntime: "Время работы", colDowntime: "Простой",
+    colOEE: "ОЭЭ",
+    approve: "Утвердить", startProduction: "Начать", completeOrder: "Завершить", cancelOrder: "Отменить",
+    orderApproved: "Заказ утверждён", orderStarted: "Производство начато",
+    orderCompleted: "Заказ завершён", orderCancelled: "Заказ отменён",
+    qcPassed: "ОТК пройден", qcFailed: "ОТК не пройден",
+    traceability: "Прослеживаемость", batchDetails: "Сведения о партии",
+    brigadeAnalytics: "Эффективность бригад", reportSubmitted: "Отчёт подан",
+    reportApproved: "Отчёт утверждён", submitReport: "Подать", approveReport: "Утвердить",
+    colInputKg: "Вход (кг)", colOutputKg: "Выход (кг)", colWasteKg: "Отходы (кг)",
   },
   costing: {
     title: "Калькуляция затрат", avgYarnCostMonth: "Ср. себ-сть пряжи (месяц)",
@@ -477,6 +738,101 @@ const ru: Translations = {
     colContract: "Контракт", colCustomer: "Заказчик", colStatus: "Статус",
     colTotal: "Сумма (UZS)", colBalance: "Задолженность", colDate: "Дата",
   },
+  quality: {
+    title: "Контроль качества", dashboard: "Панель КК",
+    tests: "Тесты качества", newTest: "Новый тест", testNumber: "Тест №", testType: "Тип теста",
+    testDate: "Дата теста", testedBy: "Испытатель", labEquipment: "Оборудование",
+    sampleSizeKg: "Размер образца (кг)", sampleLocation: "Место образца", sampleTakenBy: "Образец взял",
+    overallResult: "Результат", qualityGrade: "Сорт", approvedForUse: "Утверждён",
+    batchNumber: "Партия №", productName: "Продукт",
+    parameters: "Параметры", parameterCode: "Код", measuredValue: "Измеренное значение",
+    withinSpec: "В норме", deviation: "Отклонение %",
+    passRate: "Процент прохождения", totalTests: "Всего тестов", passed: "Прошли", failed: "Не прошли",
+    certificates: "Сертификаты", certificateNumber: "Серт. №", issueDate: "Дата выдачи", validUntil: "Действителен до",
+    issuedBy: "Выдан", approvedBy: "Утверждён", compliesWith: "Соответствует", cancelCertificate: "Аннулировать",
+    defects: "Дефекты", newDefect: "Зарегистрировать дефект", defectNumber: "Дефект №", defectType: "Тип дефекта",
+    severity: "Критичность", quantityAffected: "Объём (кг)", detectedBy: "Обнаружил", detectedDate: "Дата обнаружения",
+    rootCause: "Корень причины", correctiveAction: "Корр. действие", disposition: "Решение",
+    resolveDefect: "Закрыть дефект", defectResolved: "Дефект закрыт",
+    evaluate: "Оценить", evaluating: "Оценка…", evaluated: "Результаты оценены",
+    approve: "Утвердить", approving: "Утверждение…", approveTest: "Утвердить тест", testApproved: "Тест утверждён",
+    rejectTest: "Отклонить", rejectionReason: "Причина отказа", testRejected: "Тест отклонён",
+    issueCert: "Выдать сертификат", certIssued: "Сертификат выдан",
+    gradeA: "Сорт A", gradeB: "Сорт B", gradeC: "Сорт C",
+    statusPending: "Ожидает", statusPassed: "Прошёл", statusFailed: "Не прошёл",
+    statusConditional: "Условно", statusRetest: "Повторный тест",
+    defectOpen: "Открыт", defectInvestigating: "Расследуется", defectResolved2: "Устранён", defectClosed: "Закрыт",
+    incomingRaw: "Входящее сырьё", inProcess: "В процессе", finalProduct: "Готовая продукция", periodic: "Периодический",
+    colTest: "Тест", colType: "Тип", colBatch: "Партия", colProduct: "Продукт",
+    colDate: "Дата", colResult: "Результат", colGrade: "Сорт", colApproved: "Утверждён",
+    colCertificate: "Сертификат", colIssueDate: "Дата выдачи", colValid: "Действителен до",
+    colDefect: "Дефект", colSeverity: "Критичность", colQty: "Кол-во (кг)", colStatus: "Статус",
+    complianceScore: "Соответствие норме", gradeDistribution: "Распределение по сортам", defectPareto: "Дефекты по типам",
+    passRateTrend: "Процент прохождения", noTests: "Тестов пока нет", noCertificates: "Сертификатов нет", noDefects: "Дефектов нет",
+  },
+  maintenance: {
+    title: "Оборудование и ТО", dashboard: "Панель ТО",
+    equipment: "Оборудование", records: "Записи ТО", downtime: "Простои",
+    spareParts: "Запасные части", schedules: "Расписание",
+    newEquipment: "Новое оборудование", newRecord: "Новое ТО", reportDowntime: "Зарегистрировать простой",
+    equipmentCode: "Код оборудования", equipmentName: "Наименование", equipmentType: "Тип",
+    manufacturer: "Производитель", model: "Модель", serialNumber: "Серийный номер",
+    location: "Местоположение", status: "Статус", nextMaintenance: "Следующее ТО",
+    lastMaintenance: "Последнее ТО", operatingHours: "Часы работы", isOverdue: "Просрочено",
+    statusOperational: "Рабочее", statusMaintenance: "На ТО", statusBreakdown: "Поломка",
+    statusIdle: "Простой", statusDecommissioned: "Списано",
+    oee: "ОЭЭ", oeeTitle: "Панель ОЭЭ", availability: "Доступность",
+    performance: "Производительность", quality: "Качество",
+    scheduledDate: "Дата плановая", maintenanceType: "Вид ТО", technician: "Техник",
+    duration: "Длительность (ч)", laborCost: "Затраты на труд", partsCost: "Затраты на запчасти", totalCost: "Итого затраты",
+    workDescription: "Описание работ", findings: "Выявленные неисправности", recommendations: "Рекомендации",
+    startMaintenance: "Начать ТО", completeMaintenance: "Завершить", approveMaintenance: "Утвердить",
+    maintenanceStarted: "ТО начато", maintenanceCompleted: "ТО завершено", maintenanceApproved: "ТО утверждено",
+    typePreventive: "Плановое", typeCorrective: "Ремонт", typePredictive: "Предиктивное",
+    typeEmergency: "Аварийное", typeOverhaul: "Капремонт",
+    partCode: "Код запчасти", partName: "Наименование", category: "Категория", currentStock: "На складе",
+    minimumStock: "Мин. запас", unitCost: "Цена за ед.", lowStock: "Мало на складе", restock: "Пополнить",
+    restockQty: "Количество к добавлению", restocked: "Запас пополнен", isCritical: "Критичная",
+    downtimeNumber: "Простой №", downtimeType: "Тип простоя", reason: "Причина",
+    startTime: "Время начала", endTime: "Время окончания", durationHours: "Длительность (ч)",
+    productionLoss: "Потери производства (кг)", actionTaken: "Принятые меры", resolve: "Закрыть", resolved: "Простой закрыт",
+    active: "Активный", mttr: "MTTR (ч)", totalDowntime: "Суммарный простой (ч)",
+    usePart: "Использовать запчасть", partUsed: "Использование запчасти зафиксировано", quantity: "Количество", condition: "Состояние",
+    colEquipment: "Оборудование", colType: "Тип", colStatus: "Статус", colNext: "Следующее ТО",
+    colRecord: "Запись", colDate: "Дата", colTechnician: "Техник", colCost: "Итого",
+    colDowntime: "Простой", colDuration: "Длительность", colReason: "Причина",
+    colPart: "Запчасть", colStock: "На складе", colMin: "Мин.", colReorder: "Дозаказ?",
+    noEquipment: "Оборудование не зарегистрировано", noRecords: "Записей ТО нет", noDowntime: "Простоев нет", noParts: "Запасных частей нет",
+    upcomingMaintenance: "Предстоящие ТО", overdueAlert: "Просрочено", lowStockAlert: "Мало на складе",
+    activeDowntime: "Активные простои", avgOEE: "Ср. ОЭЭ", maintenanceCost: "Затраты на ТО",
+  },
+  advancedAnalytics: {
+    title: "Расширенная аналитика", executiveDashboard: "Исполнительная панель",
+    costAnalysis: "Анализ затрат", profitability: "Рентабельность", kpiDashboard: "KPI панель", forecasting: "Прогнозирование",
+    standardCosts: "Нормативные затраты", actualCosts: "Фактические затраты",
+    newStandardCost: "Новая норма затрат", newActualCost: "Новые факт. затраты", newAnalysis: "Новый анализ", newForecast: "Новый прогноз",
+    costPeriod: "Период затрат", rawMaterialCost: "Сырьё", laborCost: "Труд",
+    overheadCost: "Накладные", energyCost: "Энергия", totalStandardCost: "Итого (норм.)",
+    maintenanceCost: "ТО", wasteCost: "Отходы", totalActualCost: "Итого (факт.)",
+    costPerKg: "Себест./кг", quantityKg: "Кол-во (кг)",
+    revenue: "Выручка", cogs: "Себестоимость", grossProfit: "Валовая прибыль", grossMargin: "Валовая маржа %",
+    overhead: "Накладные", netProfit: "Чистая прибыль", netMargin: "Чистая маржа %", revenuePerKg: "Выр./кг",
+    efficiency: "Эффективность %", qualityPassRate: "Качество %", wastePct: "Отходы %",
+    downtimeHours: "Простой (ч)", oee: "ОЭЭ %", energyKwh: "Энергия (кВт·ч)",
+    forecastQty: "Прогноз (кг)", actualQty: "Факт (кг)", accuracy: "Точность %",
+    confidenceLow: "Конф. нижн.", confidenceHigh: "Конф. верхн.", method: "Метод",
+    methodMovingAvg: "Скольз. среднее", methodLinearReg: "Линейн. регрессия", methodManual: "Вручную",
+    periodWeekly: "Нед.", periodMonthly: "Мес.", periodQuarterly: "Квар.",
+    compareStdVsActual: "Норм. vs Факт.", variance: "Отклонение",
+    costBreakdown: "Структура затрат", costTrend: "Динамика затрат", profitabilityTrend: "Динамика прибыли",
+    noData: "Нет данных", updateActual: "Обновить факт", actualUpdated: "Факт обновлён",
+    colProduct: "Продукт", colPeriod: "Период", colStdCost: "Норм. себест.", colActualCost: "Факт. себест.",
+    colVariance: "Откл.", colRevenue: "Выручка", colNetProfit: "Чист. прибыль", colMargin: "Маржа",
+    colDate: "Дата", colLine: "Линия", colEfficiency: "Эфф-ть", colOEE: "ОЭЭ",
+    colForecastQty: "Прогноз", colActualQty: "Факт", colAccuracy: "Точность",
+    totalOutput: "Всего продукции", avgEfficiency: "Ср. эфф-ть", avgOEE: "Ср. ОЭЭ", activeDowntime: "Акт. простои",
+    totalTests: "Всего тестов", passRate: "Прохождение", avgNetMargin: "Ср. маржа",
+  },
 };
 
 const uz: Translations = {
@@ -489,6 +845,7 @@ const uz: Translations = {
   },
   nav: {
     dashboard: "Boshqaruv", warehouses: "Omborxonalar", production: "Ishlab chiqarish",
+    quality: "Sifat nazorati", maintenance: "Texnik xizmat",
     costing: "Narxlash", finance: "Moliya", analytics: "Tahlil",
     reports: "Hisobotlar", users: "Foydalanuvchilar", settings: "Sozlamalar", notifications: "Bildirishnomalar",
     tolling: "Daval",
@@ -522,6 +879,11 @@ const uz: Translations = {
     colCode: "Kod", colUnit: "O'lchov",
     wtCotton: "Paxta", wtFiber: "Tola", wtWip: "NTM", wtYarn: "Ip", wtWaste: "Chiqindi", wtOther: "Boshqa",
     ptRawCotton: "Xom paxta", ptFiber: "Tola", ptSeed: "Urug'", ptLint: "Lint", ptYarn: "Ip", ptWaste: "Chiqindi", ptOther: "Boshqa",
+    sourceType: "Kirim turi", sourceOwn: "O'zining", sourceTolling: "Tolling (Daval)", tollingCompany: "Kompaniya (Shartnoma)", selectContract: "Shartnomani tanlang",
+    editWarehouseTitle: "Omborni tahrirlash", editProductTitle: "Mahsulotni tahrirlash",
+    deleteWarehouseConfirm: "Bu ombor o'chirilsinmi? Bu amalni bekor qilib bo'lmaydi.",
+    deleteProductConfirm: "Bu mahsulot o'chirilsinmi? Bu amalni bekor qilib bo'lmaydi.",
+    productUpdated: "Mahsulot yangilandi", warehouseDeleted: "Ombor o'chirildi", productDeleted: "Mahsulot o'chirildi",
   },
   production: {
     newBatch: "Yangi partiya", activeCottonBatches: "Faol paxta partiyalari",
@@ -547,6 +909,26 @@ const uz: Translations = {
     netCost: "Sof xarajat", totalExpenses: "Jami xarajatlar", byproductCredits: "Yon mahsulot kreditlari",
     newCottonBatchTitle: "Yangi paxta partiyasi", newYarnBatchTitle: "Yangi ip partiyasi",
     startDate: "Boshlanish sanasi", selectYarnProduct: "Ip mahsuloti", batchCreated: "Partiya yaratildi", creating: "Yaratilmoqda…",
+    fiberSourceWarehouse: "Tola ombori (manba)", yarnTargetWarehouse: "Ip ombori (manzil)",
+    // Production Orders
+    orders: "Buyurtmalar", ordersTab: "Ishlab chiqarish buyurtmalari", shiftReportsTab: "Smena xisobotlari",
+    newOrder: "Yangi buyurtma", newShiftReport: "Yangi smena xisoboti",
+    ordersInProgress: "Jarayonda", ordersDelayed: "Kechikkan", completedToday: "Bugun yakunlangan",
+    outputToday: "Bugungi chiqim", avgConversion: "O'rt. konversiya", activeLines: "Faol liniyalar",
+    pendingQC: "Sifat nazoratida", colOrder: "Buyurtma", colLine: "Liniya", colBrigade: "Brigada",
+    colShift: "Smena", colPlanned: "Reja", colActual: "Haqiqiy",
+    colCompletion: "Bajarilish", colSupervisor: "Mas'ul",
+    colConversion: "Konversiya", colReport: "Hisobot", colDate: "Sana",
+    colWorkers: "Ishchilar", colRuntime: "Ish vaqti", colDowntime: "To'xtash",
+    colOEE: "OEE",
+    approve: "Tasdiqlash", startProduction: "Boshlash", completeOrder: "Yakunlash", cancelOrder: "Bekor qilish",
+    orderApproved: "Buyurtma tasdiqlandi", orderStarted: "Ishlab chiqarish boshlandi",
+    orderCompleted: "Buyurtma yakunlandi", orderCancelled: "Buyurtma bekor qilindi",
+    qcPassed: "Sifat o'tdi", qcFailed: "Sifat o'tmadi",
+    traceability: "Kuzatuvchanlik", batchDetails: "Partiya tafsilotlari",
+    brigadeAnalytics: "Brigada samaradorligi", reportSubmitted: "Hisobot yuborildi",
+    reportApproved: "Hisobot tasdiqlandi", submitReport: "Yuborish", approveReport: "Tasdiqlash",
+    colInputKg: "Kirish (kg)", colOutputKg: "Chiqish (kg)", colWasteKg: "Chiqindi (kg)",
   },
   costing: {
     title: "Tannarx kalkulyatsiyasi", avgYarnCostMonth: "O'rt. ip tannarxi (oy)",
@@ -646,6 +1028,101 @@ const uz: Translations = {
     contractCreated: "Shartnoma yaratildi", notes: "Izohlar", advancePaymentPct: "Avans %",
     colContract: "Shartnoma", colCustomer: "Mijoz", colStatus: "Holat",
     colTotal: "Jami (UZS)", colBalance: "Qoldiq", colDate: "Sana",
+  },
+  quality: {
+    title: "Sifat nazorati", dashboard: "Sifat boshqaruvi",
+    tests: "Sifat sinovlari", newTest: "Yangi sinov", testNumber: "Sinov №", testType: "Sinov turi",
+    testDate: "Sinov sanasi", testedBy: "Laborant", labEquipment: "Jihozlar",
+    sampleSizeKg: "Namuna miqdori (kg)", sampleLocation: "Namuna joyi", sampleTakenBy: "Namuna oldi",
+    overallResult: "Umumiy natija", qualityGrade: "Sinf", approvedForUse: "Tasdiqlangan",
+    batchNumber: "Partiya №", productName: "Mahsulot",
+    parameters: "Parametrlar", parameterCode: "Kod", measuredValue: "O'lchov qiymati",
+    withinSpec: "Normada", deviation: "Og'ish %",
+    passRate: "O'tish darajasi", totalTests: "Jami sinovlar", passed: "O'tdi", failed: "O'tmadi",
+    certificates: "Sertifikatlar", certificateNumber: "Sert. №", issueDate: "Berilgan sana", validUntil: "Amal qilish muddati",
+    issuedBy: "Beruvchi", approvedBy: "Tasdiqlagan", compliesWith: "Standart", cancelCertificate: "Bekor qilish",
+    defects: "Nuqsonlar", newDefect: "Nuqson qayd etish", defectNumber: "Nuqson №", defectType: "Nuqson turi",
+    severity: "Darajasi", quantityAffected: "Ta'sirlangan miqdor (kg)", detectedBy: "Aniqladi", detectedDate: "Aniqlanish sanasi",
+    rootCause: "Ildiz sabab", correctiveAction: "Tuzatish chorasi", disposition: "Qaror",
+    resolveDefect: "Nuqsonni yopish", defectResolved: "Nuqson yopildi",
+    evaluate: "Baholash", evaluating: "Baholanmoqda…", evaluated: "Natijalar baholandi",
+    approve: "Tasdiqlash", approving: "Tasdiqlanmoqda…", approveTest: "Sinovni tasdiqlash", testApproved: "Sinov tasdiqlandi",
+    rejectTest: "Rad etish", rejectionReason: "Rad etish sababi", testRejected: "Sinov rad etildi",
+    issueCert: "Sertifikat berish", certIssued: "Sertifikat berildi",
+    gradeA: "A sinf", gradeB: "B sinf", gradeC: "C sinf",
+    statusPending: "Kutilmoqda", statusPassed: "O'tdi", statusFailed: "O'tmadi",
+    statusConditional: "Shartli", statusRetest: "Qayta sinov",
+    defectOpen: "Ochiq", defectInvestigating: "Tekshirilmoqda", defectResolved2: "Hal qilindi", defectClosed: "Yopildi",
+    incomingRaw: "Kiruvchi xom ashyo", inProcess: "Jarayonda", finalProduct: "Tayyor mahsulot", periodic: "Davriy",
+    colTest: "Sinov", colType: "Tur", colBatch: "Partiya", colProduct: "Mahsulot",
+    colDate: "Sana", colResult: "Natija", colGrade: "Sinf", colApproved: "Tasdiqlangan",
+    colCertificate: "Sertifikat", colIssueDate: "Berilgan sana", colValid: "Muddati",
+    colDefect: "Nuqson", colSeverity: "Daraja", colQty: "Miqdor (kg)", colStatus: "Holat",
+    complianceScore: "Mos kelish darajasi", gradeDistribution: "Sinf taqsimoti", defectPareto: "Nuqson turlari",
+    passRateTrend: "O'tish darajasi", noTests: "Sinovlar hali yo'q", noCertificates: "Sertifikatlar yo'q", noDefects: "Nuqsonlar yo'q",
+  },
+  maintenance: {
+    title: "Jihozlar va texnik xizmat", dashboard: "TX boshqaruvi",
+    equipment: "Jihozlar", records: "TX yozuvlari", downtime: "To'xtashlar",
+    spareParts: "Ehtiyot qismlar", schedules: "Jadval",
+    newEquipment: "Yangi jihoz", newRecord: "Yangi TX", reportDowntime: "To'xtashni qayd etish",
+    equipmentCode: "Jihoz kodi", equipmentName: "Jihoz nomi", equipmentType: "Turi",
+    manufacturer: "Ishlab chiqaruvchi", model: "Model", serialNumber: "Seriya raqami",
+    location: "Joylashuv", status: "Holat", nextMaintenance: "Keyingi TX",
+    lastMaintenance: "Oxirgi TX", operatingHours: "Ish soatlari", isOverdue: "Muddati o'tgan",
+    statusOperational: "Ishlayapti", statusMaintenance: "TX da", statusBreakdown: "Nosoz",
+    statusIdle: "Ishlamayapti", statusDecommissioned: "Hisobdan chiqarilgan",
+    oee: "OEE", oeeTitle: "OEE boshqaruvi", availability: "Mavjudlik",
+    performance: "Unumdorlik", quality: "Sifat",
+    scheduledDate: "Rejalashtirilgan sana", maintenanceType: "TX turi", technician: "Texnik",
+    duration: "Davomiyligi (soat)", laborCost: "Mehnat xarajati", partsCost: "Qismlar xarajati", totalCost: "Jami xarajat",
+    workDescription: "Ish tavsifi", findings: "Topilmalar", recommendations: "Tavsiyalar",
+    startMaintenance: "TX boshlash", completeMaintenance: "Yakunlash", approveMaintenance: "Tasdiqlash",
+    maintenanceStarted: "TX boshlandi", maintenanceCompleted: "TX yakunlandi", maintenanceApproved: "TX tasdiqlandi",
+    typePreventive: "Profilaktik", typeCorrective: "Ta'mirlash", typePredictive: "Prognoz asosida",
+    typeEmergency: "Favqulodda", typeOverhaul: "Kapital ta'mirlash",
+    partCode: "Qism kodi", partName: "Qism nomi", category: "Kategoriya", currentStock: "Mavjud",
+    minimumStock: "Min. zaxira", unitCost: "Birlik narxi", lowStock: "Kam zaxira", restock: "To'ldirish",
+    restockQty: "Qo'shish miqdori", restocked: "Zaxira to'ldirildi", isCritical: "Muhim",
+    downtimeNumber: "To'xtash №", downtimeType: "To'xtash turi", reason: "Sabab",
+    startTime: "Boshlanish vaqti", endTime: "Tugash vaqti", durationHours: "Davomiylik (soat)",
+    productionLoss: "Ishlab chiqarish yo'qotishi (kg)", actionTaken: "Ko'rilgan chora", resolve: "Yopish", resolved: "To'xtash yopildi",
+    active: "Faol", mttr: "MTTR (soat)", totalDowntime: "Jami to'xtash (soat)",
+    usePart: "Qism ishlatish", partUsed: "Qism ishlatildi", quantity: "Miqdor", condition: "Holat",
+    colEquipment: "Jihoz", colType: "Tur", colStatus: "Holat", colNext: "Keyingi TX",
+    colRecord: "Yozuv", colDate: "Sana", colTechnician: "Texnik", colCost: "Jami",
+    colDowntime: "To'xtash", colDuration: "Davomiylik", colReason: "Sabab",
+    colPart: "Qism", colStock: "Zaxira", colMin: "Min.", colReorder: "Buyurtma?",
+    noEquipment: "Jihozlar ro'yxatga olinmagan", noRecords: "TX yozuvlari yo'q", noDowntime: "To'xtashlar yo'q", noParts: "Ehtiyot qismlar yo'q",
+    upcomingMaintenance: "Yaqinlashayotgan TX", overdueAlert: "Muddati o'tgan", lowStockAlert: "Kam zaxira",
+    activeDowntime: "Faol to'xtashlar", avgOEE: "O'rt. OEE", maintenanceCost: "TX xarajati",
+  },
+  advancedAnalytics: {
+    title: "Kengaytirilgan tahlil", executiveDashboard: "Boshqaruvchi paneli",
+    costAnalysis: "Xarajatlar tahlili", profitability: "Rentabellik", kpiDashboard: "KPI paneli", forecasting: "Prognozlash",
+    standardCosts: "Normativ xarajatlar", actualCosts: "Haqiqiy xarajatlar",
+    newStandardCost: "Yangi norma", newActualCost: "Yangi xarajat", newAnalysis: "Yangi tahlil", newForecast: "Yangi prognoz",
+    costPeriod: "Xarajat davri", rawMaterialCost: "Xom ashyo", laborCost: "Mehnat",
+    overheadCost: "Qo'shimcha xarajat", energyCost: "Energiya", totalStandardCost: "Jami (norma)",
+    maintenanceCost: "TX xarajati", wasteCost: "Chiqindi", totalActualCost: "Jami (haqiqiy)",
+    costPerKg: "Tannarx/kg", quantityKg: "Miqdor (kg)",
+    revenue: "Daromad", cogs: "Tannarx", grossProfit: "Yalpi foyda", grossMargin: "Yalpi marjа %",
+    overhead: "Qo'shimcha", netProfit: "Sof foyda", netMargin: "Sof marja %", revenuePerKg: "Dar./kg",
+    efficiency: "Samaradorlik %", qualityPassRate: "Sifat %", wastePct: "Chiqindi %",
+    downtimeHours: "To'xtash (soat)", oee: "OEE %", energyKwh: "Energiya (kVt·s)",
+    forecastQty: "Prognoz (kg)", actualQty: "Haqiqiy (kg)", accuracy: "Aniqlik %",
+    confidenceLow: "Konf. quyi", confidenceHigh: "Konf. yuqori", method: "Usul",
+    methodMovingAvg: "Ko'ch. o'rtacha", methodLinearReg: "Chiziqli regr.", methodManual: "Qo'lda",
+    periodWeekly: "Haftalik", periodMonthly: "Oylik", periodQuarterly: "Kvartal",
+    compareStdVsActual: "Norma vs Haqiqiy", variance: "Og'ish",
+    costBreakdown: "Xarajatlar tarkibi", costTrend: "Xarajatlar dinamikasi", profitabilityTrend: "Foyda dinamikasi",
+    noData: "Ma'lumot yo'q", updateActual: "Haqiqiyni yangilash", actualUpdated: "Yangilandi",
+    colProduct: "Mahsulot", colPeriod: "Davr", colStdCost: "Norma/kg", colActualCost: "Haqiqiy/kg",
+    colVariance: "Og'ish", colRevenue: "Daromad", colNetProfit: "Sof foyda", colMargin: "Marja",
+    colDate: "Sana", colLine: "Liniya", colEfficiency: "Sam-lik", colOEE: "OEE",
+    colForecastQty: "Prognoz", colActualQty: "Haqiqiy", colAccuracy: "Aniqlik",
+    totalOutput: "Jami mahsulot", avgEfficiency: "O'rt. sam-lik", avgOEE: "O'rt. OEE", activeDowntime: "Faol to'xt.",
+    totalTests: "Jami testlar", passRate: "O'tish darajasi", avgNetMargin: "O'rt. marja",
   },
 };
 

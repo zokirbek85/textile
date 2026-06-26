@@ -1,4 +1,6 @@
 import logging
+from django.db.models.deletion import ProtectedError
+from django.db.utils import IntegrityError
 from rest_framework.views import exception_handler
 from rest_framework.response import Response
 from rest_framework import status
@@ -7,6 +9,31 @@ logger = logging.getLogger(__name__)
 
 
 def custom_exception_handler(exc, context):
+    if isinstance(exc, ProtectedError):
+        blockers = ", ".join(
+            sorted({obj._meta.verbose_name for obj in exc.protected_objects[:5]})
+        )
+        return Response(
+            {
+                "status": "error",
+                "status_code": 400,
+                "errors": {
+                    "detail": f"Cannot delete: still referenced by {blockers}."
+                },
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    if isinstance(exc, IntegrityError):
+        return Response(
+            {
+                "status": "error",
+                "status_code": 400,
+                "errors": {"detail": "Cannot complete: this would violate data integrity."},
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
     response = exception_handler(exc, context)
 
     if response is not None:

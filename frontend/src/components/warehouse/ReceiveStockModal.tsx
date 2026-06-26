@@ -2,9 +2,11 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { warehouseApi } from "@/lib/api";
+import { warehouseApi, tollingApi } from "@/lib/api";
 import { useT } from "@/lib/i18n";
 import { toast } from "sonner";
+
+type SourceType = "own" | "tolling";
 
 interface Props {
   onClose: () => void;
@@ -37,23 +39,48 @@ export function ReceiveStockModal({ onClose }: Props) {
     queryFn: () => warehouseApi.listProducts({ page_size: 100, is_active: true }).then((r) => r.data.results),
   });
 
+  const [sourceType, setSourceType] = useState<SourceType>("own");
+
+  const { data: contracts } = useQuery({
+    queryKey: ["tolling-contracts-active"],
+    queryFn: () => tollingApi.listContracts({ status: "active", page_size: 50 }).then((r) => r.data.results),
+    enabled: sourceType === "tolling",
+  });
+
   const [warehouseId, setWarehouseId] = useState("");
   const [productId, setProductId] = useState("");
+  const [contractId, setContractId] = useState("");
   const [qty, setQty] = useState("");
   const [costPerKg, setCostPerKg] = useState("");
   const [movementDate, setMovementDate] = useState(today);
   const [notes, setNotes] = useState("");
 
+  const visibleProducts =
+    sourceType === "tolling"
+      ? (products ?? []).filter((p) => p.product_type === "fiber")
+      : (products ?? []);
+
   const mutation = useMutation({
-    mutationFn: () =>
-      warehouseApi.receiveStock({
+    mutationFn: async () => {
+      if (sourceType === "tolling") {
+        const receipt = await tollingApi.createReceipt({
+          contract: contractId,
+          fiber_product: productId,
+          quantity_kg: parseFloat(qty),
+          receipt_date: movementDate,
+          notes,
+        });
+        return tollingApi.receiveRawMaterial(receipt.data.id);
+      }
+      return warehouseApi.receiveStock({
         warehouse_id: warehouseId,
         product_id: productId,
         quantity_kg: parseFloat(qty),
         cost_per_kg: parseFloat(costPerKg),
         movement_date: movementDate,
         notes,
-      }),
+      });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["stock-ledger"] });
       queryClient.invalidateQueries({ queryKey: ["stock-movements"] });
@@ -67,7 +94,10 @@ export function ReceiveStockModal({ onClose }: Props) {
     },
   });
 
-  const canSubmit = warehouseId && productId && parseFloat(qty) > 0 && parseFloat(costPerKg) >= 0;
+  const canSubmit =
+    sourceType === "tolling"
+      ? contractId && productId && parseFloat(qty) > 0
+      : warehouseId && productId && parseFloat(qty) > 0 && parseFloat(costPerKg) >= 0;
 
   return (
     <>
@@ -76,19 +106,57 @@ export function ReceiveStockModal({ onClose }: Props) {
         <div className="bg-card rounded-xl border border-border shadow-xl w-full max-w-md p-6 space-y-4">
           <h2 className="text-base font-semibold">{t.warehouses.receiveStockTitle}</h2>
 
-          <FormField label={t.warehouses.warehouse}>
-            <select value={warehouseId} onChange={(e) => setWarehouseId(e.target.value)} className={inputCls}>
-              <option value="">—</option>
-              {(warehouses ?? []).map((wh) => (
-                <option key={wh.id} value={wh.id}>{wh.name}</option>
-              ))}
-            </select>
+          <FormField label={t.warehouses.sourceType}>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => { setSourceType("own"); setContractId(""); }}
+                className={`px-3 py-2 text-sm font-medium rounded-lg border transition-colors ${
+                  sourceType === "own"
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "border-border hover:bg-muted"
+                }`}
+              >
+                {t.warehouses.sourceOwn}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setSourceType("tolling"); setWarehouseId(""); setCostPerKg(""); }}
+                className={`px-3 py-2 text-sm font-medium rounded-lg border transition-colors ${
+                  sourceType === "tolling"
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "border-border hover:bg-muted"
+                }`}
+              >
+                {t.warehouses.sourceTolling}
+              </button>
+            </div>
           </FormField>
+
+          {sourceType === "tolling" ? (
+            <FormField label={t.warehouses.tollingCompany}>
+              <select value={contractId} onChange={(e) => setContractId(e.target.value)} className={inputCls}>
+                <option value="">{t.warehouses.selectContract}</option>
+                {(contracts ?? []).map((c) => (
+                  <option key={c.id} value={c.id}>{c.customer_name} ({c.contract_number})</option>
+                ))}
+              </select>
+            </FormField>
+          ) : (
+            <FormField label={t.warehouses.warehouse}>
+              <select value={warehouseId} onChange={(e) => setWarehouseId(e.target.value)} className={inputCls}>
+                <option value="">—</option>
+                {(warehouses ?? []).map((wh) => (
+                  <option key={wh.id} value={wh.id}>{wh.name}</option>
+                ))}
+              </select>
+            </FormField>
+          )}
 
           <FormField label={t.production.product}>
             <select value={productId} onChange={(e) => setProductId(e.target.value)} className={inputCls}>
               <option value="">—</option>
-              {(products ?? []).map((p) => (
+              {visibleProducts.map((p) => (
                 <option key={p.id} value={p.id}>{p.name} ({p.code})</option>
               ))}
             </select>
@@ -102,13 +170,15 @@ export function ReceiveStockModal({ onClose }: Props) {
                 className={inputCls}
               />
             </FormField>
-            <FormField label={t.warehouses.costPerKg}>
-              <input
-                type="number" step="0.01" min="0"
-                value={costPerKg} onChange={(e) => setCostPerKg(e.target.value)}
-                className={inputCls}
-              />
-            </FormField>
+            {sourceType === "own" && (
+              <FormField label={t.warehouses.costPerKg}>
+                <input
+                  type="number" step="0.01" min="0"
+                  value={costPerKg} onChange={(e) => setCostPerKg(e.target.value)}
+                  className={inputCls}
+                />
+              </FormField>
+            )}
           </div>
 
           <FormField label={t.common.date}>

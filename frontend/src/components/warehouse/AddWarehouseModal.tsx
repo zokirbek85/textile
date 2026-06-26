@@ -5,9 +5,11 @@ import { Loader2 } from "lucide-react";
 import { warehouseApi } from "@/lib/api";
 import { useT } from "@/lib/i18n";
 import { toast } from "sonner";
+import type { Warehouse } from "@/types";
 
 interface Props {
   onClose: () => void;
+  editTarget?: Warehouse;
 }
 
 const inputCls =
@@ -24,9 +26,10 @@ function Field({ label, required, children }: { label: string; required?: boolea
   );
 }
 
-export function AddWarehouseModal({ onClose }: Props) {
+export function AddWarehouseModal({ onClose, editTarget }: Props) {
   const t = useT();
   const queryClient = useQueryClient();
+  const isEdit = !!editTarget;
 
   const WAREHOUSE_TYPES = [
     { value: "cotton", label: t.warehouses.wtCotton },
@@ -37,33 +40,37 @@ export function AddWarehouseModal({ onClose }: Props) {
     { value: "other",  label: t.warehouses.wtOther },
   ];
 
-  const [name, setName] = useState("");
-  const [code, setCode] = useState("");
-  const [warehouseType, setWarehouseType] = useState("cotton");
-  const [location, setLocation] = useState("");
-  const [capacityKg, setCapacityKg] = useState("");
-  const [notes, setNotes] = useState("");
+  const [name, setName] = useState(editTarget?.name ?? "");
+  const [code, setCode] = useState(editTarget?.code ?? "");
+  const [warehouseType, setWarehouseType] = useState<string>(editTarget?.warehouse_type ?? "cotton");
+  const [location, setLocation] = useState(editTarget?.location ?? "");
+  const [capacityKg, setCapacityKg] = useState(editTarget?.capacity_kg ?? "");
+  const [notes, setNotes] = useState(editTarget?.notes ?? "");
 
   const mutation = useMutation({
-    mutationFn: () =>
-      warehouseApi.createWarehouse({
+    mutationFn: () => {
+      const payload = {
         name,
         code: code.toUpperCase(),
         warehouse_type: warehouseType,
         location,
-        capacity_kg: capacityKg ? parseFloat(capacityKg) : null,
+        capacity_kg: capacityKg ? parseFloat(String(capacityKg)) : null,
         notes,
-      }),
+      };
+      return isEdit
+        ? warehouseApi.updateWarehouse(editTarget!.id, payload)
+        : warehouseApi.createWarehouse(payload);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["warehouses"] });
       queryClient.invalidateQueries({ queryKey: ["warehouses-all"] });
-      toast.success(t.warehouses.warehouseAdded);
+      toast.success(isEdit ? t.common.updated : t.warehouses.warehouseAdded);
       onClose();
     },
     onError: (e: unknown) => {
       const data = (e as { response?: { data?: Record<string, string[]> } })?.response?.data;
       const firstError = data ? Object.values(data)[0] : null;
-      toast.error(Array.isArray(firstError) ? firstError[0] : "Failed to create warehouse");
+      toast.error(Array.isArray(firstError) ? firstError[0] : "Failed to save warehouse");
     },
   });
 
@@ -74,7 +81,9 @@ export function AddWarehouseModal({ onClose }: Props) {
       <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose} />
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="bg-card rounded-xl border border-border shadow-xl w-full max-w-md p-6 space-y-4">
-          <h2 className="text-base font-semibold">{t.warehouses.addWarehouseTitle}</h2>
+          <h2 className="text-base font-semibold">
+            {isEdit ? t.warehouses.editWarehouseTitle : t.warehouses.addWarehouseTitle}
+          </h2>
 
           <Field label={t.warehouses.warehouseName} required>
             <input value={name} onChange={(e) => setName(e.target.value)} className={inputCls} />
@@ -127,7 +136,9 @@ export function AddWarehouseModal({ onClose }: Props) {
               className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-60"
             >
               {mutation.isPending && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-              {mutation.isPending ? t.warehouses.adding : t.warehouses.addWarehouse}
+              {mutation.isPending
+                ? t.warehouses.adding
+                : isEdit ? t.settings.saveChanges : t.warehouses.addWarehouse}
             </button>
           </div>
         </div>

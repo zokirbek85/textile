@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
-import { cottonApi, yarnApi, warehouseApi } from "@/lib/api";
+import { cottonApi, yarnApi, warehouseApi, tollingApi } from "@/lib/api";
 import { useT } from "@/lib/i18n";
 import { toast } from "sonner";
 
@@ -11,6 +11,8 @@ interface Props {
   stage: "cotton" | "yarn";
   onClose: () => void;
 }
+
+type SourceType = "own" | "tolling";
 
 const inputCls =
   "w-full px-3 py-2 text-sm border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-ring";
@@ -34,6 +36,10 @@ export function NewBatchModal({ stage, onClose }: Props) {
   const today = new Date().toISOString().slice(0, 10);
   const [startDate, setStartDate] = useState(today);
   const [yarnProductId, setYarnProductId] = useState("");
+  const [sourceType, setSourceType] = useState<SourceType>("own");
+  const [contractId, setContractId] = useState("");
+  const [fiberSourceWarehouseId, setFiberSourceWarehouseId] = useState("");
+  const [yarnTargetWarehouseId, setYarnTargetWarehouseId] = useState("");
   const [notes, setNotes] = useState("");
 
   const { data: yarnProducts } = useQuery({
@@ -43,11 +49,33 @@ export function NewBatchModal({ stage, onClose }: Props) {
     enabled: stage === "yarn",
   });
 
+  const { data: warehouses } = useQuery({
+    queryKey: ["warehouses-all"],
+    queryFn: () => warehouseApi.listWarehouses({ page_size: 50, is_active: true }).then((r) => r.data.results),
+    enabled: stage === "yarn",
+  });
+
+  const { data: contracts } = useQuery({
+    queryKey: ["tolling-contracts-active"],
+    queryFn: () => tollingApi.listContracts({ status: "active", page_size: 50 }).then((r) => r.data.results),
+    enabled: stage === "yarn" && sourceType === "tolling",
+  });
+
   const mutation = useMutation({
     mutationFn: () =>
       stage === "cotton"
         ? cottonApi.createBatch({ start_date: startDate, notes })
-        : yarnApi.createBatch({ start_date: startDate, yarn_product_id: yarnProductId, notes }),
+        : yarnApi.createBatch({
+            start_date: startDate,
+            yarn_product_id: yarnProductId,
+            ...(sourceType === "tolling"
+              ? { tolling_contract_id: contractId }
+              : {
+                  fiber_source_warehouse_id: fiberSourceWarehouseId,
+                  yarn_target_warehouse_id: yarnTargetWarehouseId,
+                }),
+            notes,
+          }),
     onSuccess: (res) => {
       const id = res.data.id;
       queryClient.invalidateQueries({ queryKey: [stage === "cotton" ? "cotton-batches" : "yarn-batches"] });
@@ -64,7 +92,11 @@ export function NewBatchModal({ stage, onClose }: Props) {
 
   const canSubmit =
     startDate &&
-    (stage === "cotton" || yarnProductId);
+    (stage === "cotton" ||
+      (yarnProductId &&
+        (sourceType === "tolling"
+          ? contractId
+          : fiberSourceWarehouseId && yarnTargetWarehouseId)));
 
   return (
     <>
@@ -76,20 +108,87 @@ export function NewBatchModal({ stage, onClose }: Props) {
           </h2>
 
           {stage === "yarn" && (
-            <Field label={t.production.selectYarnProduct} required>
-              <select
-                value={yarnProductId}
-                onChange={(e) => setYarnProductId(e.target.value)}
-                className={inputCls}
-              >
-                <option value="">—</option>
-                {(yarnProducts ?? []).map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name}{p.yarn_count ? ` (${p.yarn_count})` : ""}
-                  </option>
-                ))}
-              </select>
-            </Field>
+            <>
+              <Field label={t.production.selectYarnProduct} required>
+                <select
+                  value={yarnProductId}
+                  onChange={(e) => setYarnProductId(e.target.value)}
+                  className={inputCls}
+                >
+                  <option value="">—</option>
+                  {(yarnProducts ?? []).map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}{p.yarn_count ? ` (${p.yarn_count})` : ""}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+
+              <Field label={t.warehouses.sourceType}>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => { setSourceType("own"); setContractId(""); }}
+                    className={`px-3 py-2 text-sm font-medium rounded-lg border transition-colors ${
+                      sourceType === "own"
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "border-border hover:bg-muted"
+                    }`}
+                  >
+                    {t.warehouses.sourceOwn}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setSourceType("tolling"); setFiberSourceWarehouseId(""); setYarnTargetWarehouseId(""); }}
+                    className={`px-3 py-2 text-sm font-medium rounded-lg border transition-colors ${
+                      sourceType === "tolling"
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "border-border hover:bg-muted"
+                    }`}
+                  >
+                    {t.warehouses.sourceTolling}
+                  </button>
+                </div>
+              </Field>
+
+              {sourceType === "tolling" ? (
+                <Field label={t.warehouses.tollingCompany} required>
+                  <select value={contractId} onChange={(e) => setContractId(e.target.value)} className={inputCls}>
+                    <option value="">{t.warehouses.selectContract}</option>
+                    {(contracts ?? []).map((c) => (
+                      <option key={c.id} value={c.id}>{c.customer_name} ({c.contract_number})</option>
+                    ))}
+                  </select>
+                </Field>
+              ) : (
+                <>
+                  <Field label={t.production.fiberSourceWarehouse} required>
+                    <select
+                      value={fiberSourceWarehouseId}
+                      onChange={(e) => setFiberSourceWarehouseId(e.target.value)}
+                      className={inputCls}
+                    >
+                      <option value="">—</option>
+                      {(warehouses ?? []).map((wh) => (
+                        <option key={wh.id} value={wh.id}>{wh.name}</option>
+                      ))}
+                    </select>
+                  </Field>
+                  <Field label={t.production.yarnTargetWarehouse} required>
+                    <select
+                      value={yarnTargetWarehouseId}
+                      onChange={(e) => setYarnTargetWarehouseId(e.target.value)}
+                      className={inputCls}
+                    >
+                      <option value="">—</option>
+                      {(warehouses ?? []).map((wh) => (
+                        <option key={wh.id} value={wh.id}>{wh.name}</option>
+                      ))}
+                    </select>
+                  </Field>
+                </>
+              )}
+            </>
           )}
 
           <Field label={t.production.startDate} required>

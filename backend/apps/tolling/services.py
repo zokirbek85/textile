@@ -3,6 +3,7 @@ from django.db import transaction
 from django.utils import timezone
 from apps.warehouse.models import Warehouse
 from apps.warehouse.services import receive_stock, issue_stock
+from core.utils import round_money
 from .models import (
     TollingContract, TollingRawMaterialReceipt, TollingDelivery,
     TollingInvoice, ContractStatus, ReceiptStatus, DeliveryStatus, InvoiceStatus,
@@ -74,22 +75,45 @@ def receive_raw_material(*, receipt: TollingRawMaterialReceipt, user) -> Tolling
 
 
 @transaction.atomic
-def complete_tolling_yarn_batch(*, batch, user) -> dict:
+def complete_tolling_yarn_batch(
+    *,
+    batch,
+    yarn_output_kg: Decimal,
+    waste_output_kg: Decimal = Decimal("0"),
+    efficiency_pct: Decimal = Decimal("0"),
+    end_date=None,
+    user,
+) -> dict:
     """
-    Split yarn output 3 ways and calculate service fee.
-    batch must have tolling_contract set and not yet be COMPLETED.
+    Finalise a tolling yarn batch: calculate cost, split yarn output 3 ways,
+    and calculate the service fee. batch must have tolling_contract set and
+    not yet be COMPLETED.
     """
     from apps.yarn_production.models import BatchStatus
     from core.exceptions import BusinessLogicError
-    from core.utils import round_money, round_weight
+    from core.utils import round_money, round_weight, safe_divide
 
     if not batch.tolling_contract_id:
         raise BusinessLogicError("Not a tolling batch.")
     if batch.status == BatchStatus.COMPLETED:
         raise BusinessLogicError("Already completed.")
+    if yarn_output_kg <= 0:
+        raise BusinessLogicError("Yarn output must be greater than zero.")
 
     contract = batch.tolling_contract
-    total_yarn = batch.yarn_output_kg
+    total_yarn = yarn_output_kg
+
+    total_expenses = sum((e.amount for e in batch.expenses.all()), Decimal("0"))
+    net_cost = batch.fiber_cost_total + total_expenses
+    yarn_cost_per_kg = round_money(safe_divide(net_cost, total_yarn, Decimal("0")))
+    waste_pct = round_money(safe_divide(waste_output_kg, batch.fiber_input_kg, Decimal("0")) * 100, 2)
+
+    batch.yarn_output_kg = total_yarn
+    batch.waste_output_kg = waste_output_kg
+    batch.waste_pct = waste_pct
+    batch.efficiency_pct = round_money(efficiency_pct, 2)
+    batch.total_spinning_expenses = total_expenses
+    batch.calculated_yarn_cost_per_kg = yarn_cost_per_kg
 
     # Three-way split
     processor_yarn = round_weight(total_yarn * contract.processor_share_pct / 100)
@@ -118,7 +142,7 @@ def complete_tolling_yarn_batch(*, batch, user) -> dict:
     batch.total_service_fee = total_service_fee
     batch.total_service_fee_with_vat = total_with_vat
 
-    today = timezone.now().date()
+    today = end_date or timezone.now().date()
 
     # Processor share → self yarn warehouse
     if processor_yarn > 0:
@@ -175,8 +199,10 @@ def create_delivery(*, data: dict, user) -> TollingDelivery:
     import datetime
     year = datetime.datetime.now().year
     count = TollingDelivery.objects.filter(delivery_date__year=year).count() + 1
+    delivery_data = {k: v for k, v in data.items() if k != "delivery_number"}
     delivery = TollingDelivery.objects.create(
-        **data,
+        **delivery_data,
+        delivery_number=f"DEM-DEL-{year}-{count:05d}",
         delivery_act_number=f"AKT-{year}-{count:05d}",
         ttn_number=f"TTN-{year}-{count:05d}",
         quality_certificate_number=f"CERT-{year}-{count:05d}",
@@ -214,18 +240,24 @@ def complete_delivery(*, delivery: TollingDelivery, user) -> dict:
     from datetime import timedelta
     year = datetime.datetime.now().year
     count = TollingInvoice.objects.filter(invoice_date__year=year).count() + 1
+    proportion = Decimal("0")
+    if delivery.yarn_batch.customer_yarn_kg:
+        proportion = min(
+            Decimal("1"),
+            delivery.quantity_kg / delivery.yarn_batch.customer_yarn_kg,
+        )
+    total_amount = round_money(delivery.yarn_batch.total_service_fee_with_vat * proportion)
+    base_amount = round_money(delivery.yarn_batch.total_service_fee * proportion)
+    vat_amount = total_amount - base_amount
     invoice = TollingInvoice.objects.create(
         contract=delivery.contract,
         yarn_batch=delivery.yarn_batch,
         delivery=delivery,
         invoice_number=f"INV-{year}-{count:05d}",
         invoice_date=delivery.delivery_date,
-        base_amount=delivery.yarn_batch.total_service_fee,
-        vat_amount=(
-            delivery.yarn_batch.total_service_fee_with_vat
-            - delivery.yarn_batch.total_service_fee
-        ),
-        total_amount=delivery.yarn_batch.total_service_fee_with_vat,
+        base_amount=base_amount,
+        vat_amount=vat_amount,
+        total_amount=total_amount,
         payment_due_date=delivery.delivery_date + timedelta(days=delivery.contract.payment_term_days),
         status=InvoiceStatus.ISSUED,
         created_by=user,

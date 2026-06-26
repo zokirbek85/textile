@@ -23,7 +23,8 @@ def create_yarn_batch(
     start_date,
     yarn_product: Product,
     fiber_source_warehouse: Warehouse,
-    yarn_target_warehouse: Warehouse,
+    yarn_target_warehouse: Warehouse = None,
+    tolling_contract=None,
     notes: str = "",
     user=None,
 ) -> YarnBatch:
@@ -33,6 +34,7 @@ def create_yarn_batch(
         yarn_product=yarn_product,
         fiber_source_warehouse=fiber_source_warehouse,
         yarn_target_warehouse=yarn_target_warehouse,
+        tolling_contract=tolling_contract,
         status=BatchStatus.IN_PROGRESS,
         notes=notes,
         created_by=user,
@@ -106,6 +108,8 @@ def complete_yarn_batch(
     """
     if batch.status != BatchStatus.IN_PROGRESS:
         raise BusinessLogicError("Only in-progress batches can be completed.")
+    if batch.tolling_contract_id:
+        raise BusinessLogicError("Tolling batches must be completed via complete-tolling.")
     if yarn_output_kg <= 0:
         raise BusinessLogicError("Yarn output must be greater than zero.")
 

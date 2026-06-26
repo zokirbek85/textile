@@ -1,3 +1,4 @@
+from decimal import Decimal
 from rest_framework import serializers
 from .models import CottonBatch, CottonBatchExpense, Machine, Shift
 
@@ -49,13 +50,13 @@ class CottonBatchCreateSerializer(serializers.Serializer):
 
 class AddCottonInputSerializer(serializers.Serializer):
     product_id = serializers.UUIDField()
-    quantity_kg = serializers.DecimalField(max_digits=14, decimal_places=3, min_value="0.001")
+    quantity_kg = serializers.DecimalField(max_digits=14, decimal_places=3, min_value=Decimal("0.001"))
 
 
 class AddExpenseSerializer(serializers.Serializer):
     category = serializers.ChoiceField(choices=CottonBatchExpense.category.field.choices
                                        if hasattr(CottonBatchExpense, 'category') else [])
-    amount = serializers.DecimalField(max_digits=20, decimal_places=4, min_value="0")
+    amount = serializers.DecimalField(max_digits=20, decimal_places=4, min_value=Decimal("0"))
     expense_date = serializers.DateField()
     description = serializers.CharField(required=False, allow_blank=True)
     quantity = serializers.DecimalField(max_digits=14, decimal_places=3,
@@ -69,12 +70,12 @@ class AddExpenseSerializer(serializers.Serializer):
 
 
 class CompleteBatchSerializer(serializers.Serializer):
-    fiber_output_kg = serializers.DecimalField(max_digits=14, decimal_places=3, min_value="0.001")
-    seed_output_kg = serializers.DecimalField(max_digits=14, decimal_places=3, default=0, min_value="0")
-    lint_output_kg = serializers.DecimalField(max_digits=14, decimal_places=3, default=0, min_value="0")
-    waste_output_kg = serializers.DecimalField(max_digits=14, decimal_places=3, default=0, min_value="0")
-    seed_credit_value = serializers.DecimalField(max_digits=20, decimal_places=4, default=0, min_value="0")
-    lint_credit_value = serializers.DecimalField(max_digits=20, decimal_places=4, default=0, min_value="0")
+    fiber_output_kg = serializers.DecimalField(max_digits=14, decimal_places=3, min_value=Decimal("0.001"))
+    seed_output_kg = serializers.DecimalField(max_digits=14, decimal_places=3, default=0, min_value=Decimal("0"))
+    lint_output_kg = serializers.DecimalField(max_digits=14, decimal_places=3, default=0, min_value=Decimal("0"))
+    waste_output_kg = serializers.DecimalField(max_digits=14, decimal_places=3, default=0, min_value=Decimal("0"))
+    seed_credit_value = serializers.DecimalField(max_digits=20, decimal_places=4, default=0, min_value=Decimal("0"))
+    lint_credit_value = serializers.DecimalField(max_digits=20, decimal_places=4, default=0, min_value=Decimal("0"))
     end_date = serializers.DateField(required=False)
 
 

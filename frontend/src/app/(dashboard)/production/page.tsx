@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { Factory, Plus, ChevronRight } from "lucide-react";
+import { Factory, Plus, ChevronRight, ClipboardList, FileText, Settings2 } from "lucide-react";
 import { cottonApi, yarnApi } from "@/lib/api";
 import { DataTable } from "@/components/ui/DataTable";
 import { StatusBadge } from "@/components/ui/StatusBadge";
@@ -43,6 +43,57 @@ export default function ProductionPage() {
           className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
         >
           <Plus className="w-4 h-4" /> {t.production.newBatch}
+        </button>
+      </div>
+
+      {/* Quick links to Production Management modules */}
+      <div className="grid grid-cols-3 gap-4">
+        <button
+          onClick={() => router.push("/production/orders")}
+          className="flex items-center gap-3 p-4 bg-card border border-border rounded-xl hover:border-primary/50 hover:bg-primary/5 transition-colors text-left"
+        >
+          <div className="p-2 bg-primary/10 rounded-lg">
+            <ClipboardList className="w-5 h-5 text-primary" />
+          </div>
+          <div>
+            <div className="text-sm font-semibold">{t.production.ordersTab}</div>
+            <div className="text-xs text-muted-foreground mt-0.5">
+              Ishlab chiqarish buyurtmalari
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto" />
+        </button>
+
+        <button
+          onClick={() => router.push("/production/shift-reports")}
+          className="flex items-center gap-3 p-4 bg-card border border-border rounded-xl hover:border-primary/50 hover:bg-primary/5 transition-colors text-left"
+        >
+          <div className="p-2 bg-emerald-500/10 rounded-lg">
+            <FileText className="w-5 h-5 text-emerald-600" />
+          </div>
+          <div>
+            <div className="text-sm font-semibold">{t.production.shiftReportsTab}</div>
+            <div className="text-xs text-muted-foreground mt-0.5">
+              Smena xisobotlari
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto" />
+        </button>
+
+        <button
+          onClick={() => router.push("/production/lines")}
+          className="flex items-center gap-3 p-4 bg-card border border-border rounded-xl hover:border-primary/50 hover:bg-primary/5 transition-colors text-left"
+        >
+          <div className="p-2 bg-violet-500/10 rounded-lg">
+            <Settings2 className="w-5 h-5 text-violet-600" />
+          </div>
+          <div>
+            <div className="text-sm font-semibold">Liniyalar</div>
+            <div className="text-xs text-muted-foreground mt-0.5">
+              Ishlab chiqarish liniyalari
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto" />
         </button>
       </div>
 

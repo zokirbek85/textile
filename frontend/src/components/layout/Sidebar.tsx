@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Warehouse, Factory, DollarSign,
   FileText, Users, Settings, ChevronLeft,
-  Layers, Zap, ClipboardList,
+  Layers, Zap, ClipboardList, Shield, Wrench,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/stores/uiStore";
@@ -21,6 +21,8 @@ const NAV_HREFS = [
   { key: "reports" as const, href: "/reports", icon: FileText, roles: ["admin", "director", "accountant", "production_manager", "warehouse_manager", "sales_manager"] },
   { key: "users" as const, href: "/users", icon: Users, roles: ["admin", "director"] },
   { key: "tolling" as const, href: "/tolling", icon: ClipboardList, roles: ["admin", "director", "accountant", "production_manager", "sales_manager"] },
+  { key: "quality" as const, href: "/quality", icon: Shield, roles: ["admin", "director", "production_manager", "lab_operator"] },
+  { key: "maintenance" as const, href: "/maintenance", icon: Wrench, roles: ["admin", "director", "production_manager"] },
   { key: "settings" as const, href: "/settings", icon: Settings, roles: ["admin"] },
 ];
 

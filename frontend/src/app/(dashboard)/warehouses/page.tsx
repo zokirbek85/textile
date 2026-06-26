@@ -1,24 +1,61 @@
 "use client";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Warehouse, Plus, Search, Package } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Warehouse as WarehouseIcon, Plus, Search, Pencil, Trash2 } from "lucide-react";
 import { warehouseApi } from "@/lib/api";
 import { DataTable } from "@/components/ui/DataTable";
+import { RowActions } from "@/components/ui/RowActions";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { ReceiveStockModal } from "@/components/warehouse/ReceiveStockModal";
 import { AddWarehouseModal } from "@/components/warehouse/AddWarehouseModal";
 import { AddProductModal } from "@/components/warehouse/AddProductModal";
 import { formatMoney, formatWeight, WAREHOUSE_TYPE_COLORS } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { useT } from "@/lib/i18n";
-import type { StockLedgerEntry, Product } from "@/types";
+import { toast } from "sonner";
+import type { StockLedgerEntry, Product, Warehouse } from "@/types";
 
 export default function WarehousesPage() {
   const t = useT();
+  const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<"balances" | "movements" | "products">("balances");
   const [search, setSearch] = useState("");
   const [showReceive, setShowReceive] = useState(false);
   const [showAddWarehouse, setShowAddWarehouse] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [editWarehouse, setEditWarehouse] = useState<Warehouse | null>(null);
+  const [deleteWarehouseTarget, setDeleteWarehouseTarget] = useState<Warehouse | null>(null);
+  const [editProduct, setEditProduct] = useState<Product | null>(null);
+  const [deleteProductTarget, setDeleteProductTarget] = useState<Product | null>(null);
+
+  const deleteWarehouseMutation = useMutation({
+    mutationFn: (id: string) => warehouseApi.deleteWarehouse(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["warehouses"] });
+      queryClient.invalidateQueries({ queryKey: ["warehouses-all"] });
+      toast.success(t.warehouses.warehouseDeleted);
+      setDeleteWarehouseTarget(null);
+    },
+    onError: (e: unknown) => {
+      const msg = (e as { response?: { data?: { errors?: { detail?: string } } } })?.response?.data?.errors?.detail;
+      toast.error(msg ?? "Failed to delete warehouse");
+      setDeleteWarehouseTarget(null);
+    },
+  });
+
+  const deleteProductMutation = useMutation({
+    mutationFn: (id: string) => warehouseApi.deleteProduct(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products-all"] });
+      toast.success(t.warehouses.productDeleted);
+      setDeleteProductTarget(null);
+    },
+    onError: (e: unknown) => {
+      const msg = (e as { response?: { data?: { errors?: { detail?: string } } } })?.response?.data?.errors?.detail;
+      toast.error(msg ?? "Failed to delete product");
+      setDeleteProductTarget(null);
+    },
+  });
 
   const { data: warehouses, isLoading: whLoading } = useQuery({
     queryKey: ["warehouses"],
@@ -98,9 +135,27 @@ export default function WarehousesPage() {
                   }
                 )}
               >
-                <div className="flex items-center gap-1.5 mb-3">
-                  <Warehouse className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
-                  <span className="text-xs font-medium truncate">{wh.name}</span>
+                <div className="flex items-center justify-between gap-1.5 mb-3">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <WarehouseIcon className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                    <span className="text-xs font-medium truncate">{wh.name}</span>
+                  </div>
+                  <div className="flex items-center gap-0.5 shrink-0">
+                    <button
+                      onClick={() => setEditWarehouse(wh)}
+                      className="p-1 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                      title="Edit"
+                    >
+                      <Pencil className="w-3 h-3" />
+                    </button>
+                    <button
+                      onClick={() => setDeleteWarehouseTarget(wh)}
+                      className="p-1 rounded hover:bg-red-100 dark:hover:bg-red-900/30 text-muted-foreground hover:text-red-600 transition-colors"
+                      title="Delete"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  </div>
                 </div>
                 <p className="text-sm font-bold tabular">{formatMoney(wh.total_stock_value)}</p>
                 <p className="text-xs text-muted-foreground tabular mt-0.5">
@@ -266,6 +321,17 @@ export default function WarehousesPage() {
                 </span>
               ),
             },
+            {
+              key: "id",
+              header: "",
+              className: "text-right",
+              render: (r) => (
+                <RowActions
+                  onEdit={() => setEditProduct(r)}
+                  onDelete={() => setDeleteProductTarget(r)}
+                />
+              ),
+            },
           ]}
         />
       )}
@@ -273,6 +339,30 @@ export default function WarehousesPage() {
       {showReceive && <ReceiveStockModal onClose={() => setShowReceive(false)} />}
       {showAddWarehouse && <AddWarehouseModal onClose={() => setShowAddWarehouse(false)} />}
       {showAddProduct && <AddProductModal onClose={() => setShowAddProduct(false)} />}
+      {editWarehouse && (
+        <AddWarehouseModal editTarget={editWarehouse} onClose={() => setEditWarehouse(null)} />
+      )}
+      {editProduct && (
+        <AddProductModal editTarget={editProduct} onClose={() => setEditProduct(null)} />
+      )}
+      {deleteWarehouseTarget && (
+        <ConfirmDialog
+          title={t.warehouses.addWarehouse}
+          message={t.warehouses.deleteWarehouseConfirm}
+          loading={deleteWarehouseMutation.isPending}
+          onConfirm={() => deleteWarehouseMutation.mutate(deleteWarehouseTarget.id)}
+          onCancel={() => setDeleteWarehouseTarget(null)}
+        />
+      )}
+      {deleteProductTarget && (
+        <ConfirmDialog
+          title={t.warehouses.addProduct}
+          message={t.warehouses.deleteProductConfirm}
+          loading={deleteProductMutation.isPending}
+          onConfirm={() => deleteProductMutation.mutate(deleteProductTarget.id)}
+          onCancel={() => setDeleteProductTarget(null)}
+        />
+      )}
     </div>
   );
 }

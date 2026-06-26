@@ -102,13 +102,17 @@ export default function YarnBatchDetailPage() {
   const [wasteOut, setWasteOut] = useState("0");
   const [completeEndDate, setCompleteEndDate] = useState(today);
 
+  const isTolling = !!batch?.tolling_contract;
+
   const completeMutation = useMutation({
-    mutationFn: () =>
-      yarnApi.completeBatch(id, {
+    mutationFn: () => {
+      const payload = {
         yarn_output_kg: parseFloat(yarnOut),
         waste_output_kg: parseFloat(wasteOut),
         end_date: completeEndDate,
-      }),
+      };
+      return isTolling ? yarnApi.completeTolling(id, payload) : yarnApi.completeBatch(id, payload);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["yarn-batch", id] });
       queryClient.invalidateQueries({ queryKey: ["yarn-batches"] });
@@ -150,6 +154,11 @@ export default function YarnBatchDetailPage() {
               {batch.yarn_count && (
                 <span className="ml-2 text-xs bg-violet-100 text-violet-700 dark:bg-violet-900/20 dark:text-violet-300 px-2 py-0.5 rounded font-medium">
                   {batch.yarn_count}
+                </span>
+              )}
+              {isTolling && (
+                <span className="ml-2 text-xs bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-300 px-2 py-0.5 rounded font-medium">
+                  Tolling — {batch.tolling_customer_name}
                 </span>
               )}
             </p>
